@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RongIMKit
 import SwiftyJSON
 import MessageUI
 
@@ -59,7 +60,7 @@ class PSMessageCell: RCMessageCell {
             }
             return object
         }
-        if UserUtils.isBlankString(userInfo.portraitUri) == false {
+        if userInfo.portraitUri != "" && userInfo.portraitUri != nil {
             let contentTemplate: JSON = JSON.init(parseJSON: model.senderUserInfo.portraitUri)
             return PSMessageModel(contentTemplate)
         }
@@ -70,7 +71,7 @@ class PSMessageCell: RCMessageCell {
         return object
     }
 //MARK: - 视图
-    let bkView: UIImageView = UIImageView().son {
+    let bkView: UIImageView = UIImageView().HTSon {
         $0.backgroundColor = UIColor.clear
         $0.isUserInteractionEnabled = true
     }
@@ -117,13 +118,14 @@ class PSMessageCell: RCMessageCell {
         return label
     }()
     
-    let contentLabelView: UIView = UIView().son {
+    let contentLabelView: UIView = UIView().HTSon {
         $0.isHidden = true
     }
 
     let showDetailView: PSShowDetailView = PSShowDetailView()
-    let showTransmitView: PSShowTransmitView = PSShowTransmitView()
-    let showQuestionView: PSQuestionView = PSQuestionView().son {
+//    let showTransmitView: PSShowTransmitView = PSShowTransmitView()
+    let showTransmitView: UIView = UIView()
+    let showQuestionView: PSQuestionView = PSQuestionView().HTSon {
         $0.isHidden = true
     }
 
@@ -196,30 +198,12 @@ class PSMessageCell: RCMessageCell {
 //MARK: - 点击事件
 extension PSMessageCell {
     @objc func clickAction() {
-        if let currentVc = HTAPCurrentViewController() {
-            let urlStr: String = messageContentModel.url
-            guard urlStr != "" else {
-                return
+        let urlStr: String = messageContentModel.url
+        if let url = URL(string: urlStr) {
+            let shared = HTAppPublicServiceCellManager.shared
+            if let handle = shared.attributedLabelDidSelectedLink {
+                handle(url)
             }
-            let pathExtenstion:String = (urlStr as NSString).pathExtension
-            guard pathExtenstion != "apk" else {
-                HTAPShowTip(tips: "不支持apk链接!", viewController: currentVc)
-                return
-            }
-            let vc = VideoWebViewController()
-            vc.urlStr = urlStr
-            vc.isHiddenNavBar = true
-            var dic:[String:Any] = [:]
-            dic["user"] = Global.sharedInstance.user?.toDictionary()
-            let data:Data? = try? JSONSerialization.data(withJSONObject: dic, options: [])
-            if data == nil {
-                HTPrint("data is nil")
-                return
-            }
-            let jsonStr:String = String(data: data!, encoding: String.Encoding.utf8)!
-            vc.jsFunc = "getNewOATokenInfo('\(jsonStr)')"
-            vc.webView.scrollView.bounces = true
-            currentVc.push(viewController: vc)
         }
     }
 }
@@ -237,9 +221,9 @@ extension PSMessageCell {
         showTransmitView.isHidden = true
         showQuestionView.isHidden = true
         let title: String = messageContentModel.getHyperLinkTitle()
-        let titleWidth = descriptionFont.size(of: title, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
-        let oneLineHeight = descriptionFont.size(of: "title", constrainedToWidth: p_titleContentWidth).height
-        let titleHeight: CGFloat = descriptionFont.size(of: title, constrainedToWidth: p_titleContentWidth).height
+        let titleWidth = descriptionFont.HTAppSize(of: title, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
+        let oneLineHeight = descriptionFont.HTAppSize(of: "title", constrainedToWidth: p_titleContentWidth).height
+        let titleHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: p_titleContentWidth).height
         if oneLineHeight == titleHeight {
             if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
                 bkView.snp_remakeConstraints { (make) in
@@ -267,7 +251,7 @@ extension PSMessageCell {
         if let currentVc = HTAPCurrentViewController() {
             let imText = IMTextViewController()
             imText.text = messageContentModel.getHyperLinkTitle()
-            currentVc.present(viewController: imText)
+            currentVc.present(imText, animated: true, completion: nil)
         }
     }
     private func configCommonInfoCell() {
@@ -307,7 +291,7 @@ extension PSMessageCell {
         titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         descriptionLabel.isHidden = true
-        if UserUtils.isBlankString(messageContentModel.head) == true {
+        if messageContentModel.head == "" {
             titleLabel.isHidden = true
             showQuestionView.snp_remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
@@ -326,17 +310,17 @@ extension PSMessageCell {
     //MARK: -----------  配置模板表项内容 ------------
     private func configTemplateContentCell() {
         let titleContent: String = messageContentModel.firstHead
-        let firstHeaderWidth = titleFont.size(of: titleContent, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
+        let firstHeaderWidth = titleFont.HTAppSize(of: titleContent, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
 
         var templateContent: String = messageContentModel.secondHead?.content ?? ""
         if templateContent.count < messageContentModel.form?.content.count ?? 0 {
             templateContent = messageContentModel.form?.content ?? ""
         }
         let title: String = messageContentModel.getHyperLinkTemplateContent(templateContent)
-        var titleWidth = descriptionFont.size(of: title, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
+        var titleWidth = descriptionFont.HTAppSize(of: title, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
         titleWidth = max(firstHeaderWidth, titleWidth)
-        let oneLineHeight = descriptionFont.size(of: "title", constrainedToWidth: p_titleContentWidth).height
-        let titleHeight: CGFloat = descriptionFont.size(of: title, constrainedToWidth: p_titleContentWidth).height
+        let oneLineHeight = descriptionFont.HTAppSize(of: "title", constrainedToWidth: p_titleContentWidth).height
+        let titleHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: p_titleContentWidth).height
         if oneLineHeight == titleHeight, messageContentModel.buttonList.count == 0 {
             if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
                 bkView.snp_remakeConstraints { (make) in
@@ -370,8 +354,8 @@ extension PSMessageCell {
         showDetailView.jumpUrl = messageContentModel.url
         showDetailView.type = messageContentModel.type
         showDetailView.moreTitle = messageContentModel.endTitle
-        showTransmitView.jumpUrl = messageContentModel.url
-        showTransmitView.meetingId = messageContentModel.id
+//        showTransmitView.jumpUrl = messageContentModel.url
+//        showTransmitView.meetingId = messageContentModel.id
         showQuestionView.dataSource = messageContentModel.template
         if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
             bkView.image = fromImage
@@ -392,7 +376,7 @@ extension PSMessageCell {
                 for (index, url) in linkURL.enumerated() {
                     let linkRange: NSRange = linkRange[index]
                     if linkRange.location + linkRange.length <= content.count {
-                        let linkAction: TTTAttributedLabelLink = titleLabel.addLink(to: URL.init(string: url.urlEncoded()), with: linkRange)
+                        let linkAction: TTTAttributedLabelLink = titleLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
                         linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                             if let weakSelf = self {
                                 if let url: URL = link?.result.url {
@@ -407,7 +391,7 @@ extension PSMessageCell {
             configCommonInfoCell()
             titleLabel.text = messageContentModel.head
             descriptionLabel.text = messageContentModel.title
-            if UserUtils.isBlankString(messageContentModel.title) == true {
+            if messageContentModel.title == "" {
                 descriptionLabel.isHidden = true
                 contentLabelView.snp_remakeConstraints { (make) in
                     make.left.right.equalTo(titleLabel)
@@ -482,18 +466,18 @@ extension PSMessageCell {
             for (index, url) in linkURL.enumerated() {
                 let linkRange: NSRange = linkRange[index]
                 if linkRange.location + linkRange.length <= secondHead.count {
-                    let linkAction: TTTAttributedLabelLink = descriptionLabel.addLink(to: URL.init(string: url.urlEncoded()), with: linkRange)
+                    let linkAction: TTTAttributedLabelLink = descriptionLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
                             if let url: URL = link?.result.url {
                                 var urlComponents: [String: AnyObject]?
                                 if #available(iOS 10.2, *) {
-                                    urlComponents = url.absoluteString.urlParameters
+                                    urlComponents = url.absoluteString.HTurlParameters
                                 } else {
                                     // Fallback on earlier versions
                                 }
                                 if let urlParam = urlComponents {
-                                    let type: Int = (urlParam["hrefType"] as? String ?? "0").toInt() ?? 0
+                                    let type: Int = (urlParam["hrefType"] as? String ?? "0").HTtoInt() ?? 0
                                     let hyperLink: String = urlParam["url"] as? String ?? ""
                                     let hyperName: String = urlParam["showText"] as? String ?? ""
                                     let secret: String = urlParam["secret"] as? String ?? ""
@@ -524,7 +508,7 @@ extension PSMessageCell {
             for (index, url) in linkURL.enumerated() {
                 let linkRange: NSRange = linkRange[index]
                 if linkRange.location + linkRange.length <= content.count {
-                    let linkAction: TTTAttributedLabelLink = contentLabel.addLink(to: URL.init(string: url.urlEncoded()), with: linkRange)
+                    let linkAction: TTTAttributedLabelLink = contentLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
                             if let url: URL = link?.result.url {
@@ -546,7 +530,7 @@ extension PSMessageCell {
         }
         var topView: UIView? = nil
         dataList.forEach { (object) in
-            let tLabel: UILabel = UILabel().son {
+            let tLabel: UILabel = UILabel().HTSon {
                 HTAdapter.configureLabelStyle($0, text: "", font: descriptionFont, textColor: HTTheme.bTextColor, aligment: .left)
                 $0.numberOfLines = 0
             }

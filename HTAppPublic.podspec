@@ -50,4 +50,5 @@ TODO: Add long description of the pod here.
  s.dependency 'YYText'
  s.dependency 'YYWebImage'
 
+ s.prefix_header_contents = '#import <RongIMKit/RongIMKit.h>','#import "RCDataBaseManager.h"'
 end

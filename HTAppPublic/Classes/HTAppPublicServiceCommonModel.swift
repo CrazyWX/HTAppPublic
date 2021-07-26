@@ -111,7 +111,7 @@ class PSMessageModel: NSObject {
             id = json["id"].intValue
             
             endTitle = json["endTitle"].stringValue
-            if UserUtils.isBlankString(endTitle) == true {
+            if endTitle == "" {
                 endTitle = "查看更多"
             }
             if type == .InfoDetailNoMore {
@@ -261,7 +261,7 @@ class PSMessageModel: NSObject {
     func templateHeight(_ width: Double = 0.0) -> CGFloat {
         var totalHeight: CGFloat = 0.0
         template.forEach { (info) in
-            let titleHeight = descriptionFont.size(of: info.title + " : " + info.value, constrainedToWidth: viewLabelContentWidth(width)).height
+            let titleHeight = descriptionFont.HTAppSize(of: info.title + " : " + info.value, constrainedToWidth: viewLabelContentWidth(width)).height
             totalHeight =  totalHeight + titleHeight
         }
         return totalHeight + HTAdapter.suitW(20)
@@ -270,7 +270,7 @@ class PSMessageModel: NSObject {
         var totalHeight: CGFloat = HTAdapter.suitW(4.0)
         var index: Int = 1
         template.forEach { (info) in
-            let titleHeight = descriptionFont.size(of: "\(index)." + info.title + "12345", constrainedToWidth: viewLabelContentWidth(width)).height
+            let titleHeight = descriptionFont.HTAppSize(of: "\(index)." + info.title + "12345", constrainedToWidth: viewLabelContentWidth(width)).height
             totalHeight =  totalHeight + titleHeight + HTAdapter.suitW(8.0)
             index = index + 1
         }
@@ -278,20 +278,20 @@ class PSMessageModel: NSObject {
     }
 
     private func normalHeight(_ width: Double = 0.0) -> CGFloat {
-        let titleHeight: CGFloat = descriptionFont.size(of: getHyperLinkTitle(), constrainedToWidth: viewLabelContentWidth(width)).height
+        let titleHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTitle(), constrainedToWidth: viewLabelContentWidth(width)).height
         return HTAdapter.suitW(20) + titleHeight
     }
     
     private func infoDetailHeight(_ width: Double = 0.0) -> CGFloat {
         let contentWidth: Double = viewLabelContentWidth(width)
         var resultHeight: CGFloat = HTAdapter.suitW(10)
-        if UserUtils.isBlankString(head) == false {
-            let titleHeight: CGFloat = titleFont.size(of: head, constrainedToWidth: contentWidth).height
+        if head != "" {
+            let titleHeight: CGFloat = titleFont.HTAppSize(of: head, constrainedToWidth: contentWidth).height
             resultHeight = resultHeight + titleHeight
         }
         /// 描述字段非空
-        if UserUtils.isBlankString(title) == false {
-            let detailHeight: CGFloat = descriptionFont.size(of: title, constrainedToWidth: contentWidth).height
+        if title != "" {
+            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: contentWidth).height
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         let totalHeight: CGFloat = templateHeight()
@@ -313,17 +313,17 @@ class PSMessageModel: NSObject {
         var resultHeight: CGFloat = HTAdapter.suitW(10)
         /// 主标题
         if firstHead != "" {
-            let titleHeight: CGFloat = titleFont.size(of: firstHead, constrainedToWidth: contentWidth).height
+            let titleHeight: CGFloat = titleFont.HTAppSize(of: firstHead, constrainedToWidth: contentWidth).height
             resultHeight = resultHeight + titleHeight
         }
         /// 副标题
         if secondHead?.content != "" {
-            let detailHeight: CGFloat = descriptionFont.size(of: getHyperLinkTemplateContent(secondHead?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTemplateContent(secondHead?.content), constrainedToWidth: viewLabelContentWidth(width)).height
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         /// 表项
         if form?.content != "" {
-            let detailHeight: CGFloat = descriptionFont.size(of: getHyperLinkTemplateContent(form?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTemplateContent(form?.content), constrainedToWidth: viewLabelContentWidth(width)).height
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         resultHeight = resultHeight + HTAdapter.suitW(8)
@@ -339,8 +339,8 @@ class PSMessageModel: NSObject {
     private func infoQuestionHeight() -> CGFloat {
         let contentWidth: Double = viewLabelContentWidth()
         var titleHeight: CGFloat = 0
-        if UserUtils.isBlankString(head) == false {
-            titleHeight = descriptionFont.size(of: head, constrainedToWidth: contentWidth).height + HTAdapter.suitW(8)
+        if head != "" {
+            titleHeight = descriptionFont.HTAppSize(of: head, constrainedToWidth: contentWidth).height + HTAdapter.suitW(8)
         }
         let totalHeight: CGFloat = questionTemplateHeight()
         return HTAdapter.suitW(10) + titleHeight + totalHeight

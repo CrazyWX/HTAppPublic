@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RongIMKit
 
 @objc protocol HTAppPublicServiceDelegate {
     @objc optional func naviBarRightButtonTitle(_ targetId: String) -> String?

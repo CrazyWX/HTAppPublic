@@ -65,14 +65,14 @@ import SnapKit
     func configureLeftButton(image : UIImage?){
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(image, for: UIControl.State.normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureLeftButton(button: button)
     }
     
     func configureLeftButton(text : String, textColor: UIColor = HTTheme.aTextColor, font: UIFont = UIFont.HTAppRegularFont(with: 16)){
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setTitle(text, for:UIControl.State.normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureLeftButton(button: button, textColor: textColor, font: font)
     }
     
@@ -80,7 +80,7 @@ import SnapKit
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setTitle(text, for:UIControl.State.normal)
         button.setImage(image, for: UIControl.State.normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureLeftButton(button: button)
     }
     
@@ -88,24 +88,24 @@ import SnapKit
         let button1 = UIButton(type: .custom)
         button1.setTitle(text1, for: .normal)
         button1.setImage(image, for: .normal)
-        button1.accpetEventInterval = 0.8
+//        button1.accpetEventInterval = 0.8
         let button2 = UIButton(type: .custom)
         button2.setTitle(text2, for: .normal)
-        button2.accpetEventInterval = 0.8
+//        button2.accpetEventInterval = 0.8
         configureLeftButtons(button1: button1, button2: button2)
     }
     
     func configureRightButton(image : UIImage?){
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(image, for: .normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureRightButton(button: button)
     }
     
     func configureRightButton(text : String, _ textColor: UIColor = HTTheme.btnColor){
         let button = UIButton(type: UIButton.ButtonType.system)
         button.setTitle(text, for: UIControl.State.normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureRightButton(button: button, textColor)
     }
     
@@ -128,7 +128,7 @@ import SnapKit
     func configureRightSubItem(withImage image: UIImage?){
         let button = UIButton(type: UIButton.ButtonType.custom)
         button.setImage(image, for: UIControl.State.normal)
-        button.accpetEventInterval = 0.8
+//        button.accpetEventInterval = 0.8
         configureRightSubButton(button: button)
         
     }
@@ -170,7 +170,7 @@ import SnapKit
 }
 extension HTNaviBarView {
     
-    func configureLeftButton(button : UIButton, textColor: UIColor = HTTheme.aTextColor, font: UIFont = UIFont.regularFont(with: 16)){
+    func configureLeftButton(button : UIButton, textColor: UIColor = HTTheme.aTextColor, font: UIFont = UIFont.HTAppRegularFont(with: 16)){
         leftItem?.removeFromSuperview()
         leftItem = button
         addSubview(button)

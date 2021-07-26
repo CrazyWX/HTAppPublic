@@ -8,17 +8,19 @@
 
 import UIKit
 import YYWebImage
+import YYText
+import RongIMKit
 
 class PSShowDetailView: UIView {
 
-    let bDetailLabel: UILabel = UILabel().son {
-        Adapter.configureLabelStyle($0, text: "查看更多", font: UIFont.regularFont(with: Adapter.adjustFont(16)), textColor: Theme.btnColor, aligment: .left)
+    let bDetailLabel: UILabel = UILabel().HTSon {
+        HTAdapter.configureLabelStyle($0, text: "查看更多", font: UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(16)), textColor: HTTheme.btnColor, aligment: .left)
     }
-    let assistanceImageView = UIImageView().son {
+    let assistanceImageView = UIImageView().HTSon {
         $0.image = UIImage(named: "Assistance")
     }
-    let hLine: UIView = UIView().son {
-        $0.backgroundColor = Theme.lineColor
+    let hLine: UIView = UIView().HTSon {
+        $0.backgroundColor = HTTheme.lineColor
     }
     
     var buttonList: [UIButton] = []
@@ -29,9 +31,9 @@ class PSShowDetailView: UIView {
             }
             buttonList.removeAll()
             for (index, data) in templateButtonList.enumerated() {
-                let button: UIButton = UIButton().son {
-                    $0.titleLabel?.font = UIFont.regularFont(with: Adapter.adjustFont(16))
-                    $0.setTitleColor(Theme.btnColor, for: .normal)
+                let button: UIButton = UIButton().HTSon {
+                    $0.titleLabel?.font = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(16))
+                    $0.setTitleColor(HTTheme.btnColor, for: .normal)
                     $0.setTitle(data.showText, for: .normal)
                     $0.tag = index
                 }
@@ -65,17 +67,17 @@ class PSShowDetailView: UIView {
         addSubview(hLine)
 
         assistanceImageView.snp.makeConstraints { (maker) in
-            maker.right.equalToSuperview().offset(Adapter.suitW(-17))
+            maker.right.equalToSuperview().offset(HTAdapter.suitW(-17))
             maker.centerY.equalToSuperview()
             maker.size.equalTo(UIImage(named: "Assistance")!.size)
         }
         hLine.snp_makeConstraints { (make) in
-            make.left.equalToSuperview().offset(Adapter.suitW(6))
+            make.left.equalToSuperview().offset(HTAdapter.suitW(6))
             make.right.top.equalToSuperview()
             make.height.equalTo(1.0 / UIScreen.main.scale)
         }
         bDetailLabel.snp.makeConstraints { (maker) in
-            maker.left.equalTo(hLine).offset(Adapter.suitW(11))
+            maker.left.equalTo(hLine).offset(HTAdapter.suitW(11))
             maker.centerY.equalToSuperview()
         }
 
@@ -103,7 +105,7 @@ class PSShowDetailView: UIView {
             allBtnList = buttonList
         }
         var offsetY: CGFloat = 0.0
-        let offsetX: CGFloat = Adapter.suitW(6)
+        let offsetX: CGFloat = HTAdapter.suitW(6)
         for (index, item) in allBtnList.enumerated() {
             if index % 2 == 0 {
                 addSubview(item)
@@ -111,10 +113,10 @@ class PSShowDetailView: UIView {
                     make.left.equalToSuperview().offset(offsetX)
                     make.top.equalToSuperview().offset(offsetY)
                     make.width.equalToSuperview().dividedBy(2)
-                    make.height.equalTo(Adapter.suitW(44))
+                    make.height.equalTo(HTAdapter.suitW(44))
                 }
-                let line: UIView = UIView().son {
-                    $0.backgroundColor = Theme.lineColor
+                let line: UIView = UIView().HTSon {
+                    $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
                 line.snp_makeConstraints { (make) in
@@ -124,14 +126,14 @@ class PSShowDetailView: UIView {
                     make.height.equalTo(1.0 / UIScreen.main.scale)
                 }
             } else {
-                let line: UIView = UIView().son {
-                    $0.backgroundColor = Theme.lineColor
+                let line: UIView = UIView().HTSon {
+                    $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
                 line.snp_makeConstraints { (make) in
                     make.centerX.equalToSuperview()
                     make.top.equalToSuperview().offset(offsetY)
-                    make.height.equalTo(Adapter.suitW(44))
+                    make.height.equalTo(HTAdapter.suitW(44))
                     make.width.equalTo(1.0 / UIScreen.main.scale)
                 }
                 addSubview(item)
@@ -139,9 +141,9 @@ class PSShowDetailView: UIView {
                     make.right.equalToSuperview()
                     make.top.equalToSuperview().offset(offsetY)
                     make.width.equalToSuperview().dividedBy(2)
-                    make.height.equalTo(Adapter.suitW(44))
+                    make.height.equalTo(HTAdapter.suitW(44))
                 }
-                offsetY = offsetY + Adapter.suitW(44)
+                offsetY = offsetY + HTAdapter.suitW(44)
             }
         }
         if buttonCount % 2 == 1 {
@@ -149,12 +151,12 @@ class PSShowDetailView: UIView {
                 addSubview(lastButton)
                 lastButton.snp_makeConstraints { (make) in
                     make.bottom.equalToSuperview()
-                    make.left.equalToSuperview().offset(Adapter.suitW(6))
-                    make.height.equalTo(Adapter.suitW(44))
+                    make.left.equalToSuperview().offset(HTAdapter.suitW(6))
+                    make.height.equalTo(HTAdapter.suitW(44))
                     make.right.equalToSuperview()
                 }
-                let line: UIView = UIView().son {
-                    $0.backgroundColor = Theme.lineColor
+                let line: UIView = UIView().HTSon {
+                    $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
                 line.snp_makeConstraints { (make) in
@@ -205,126 +207,6 @@ class PSShowDetailView: UIView {
     }
 }
 
-class PSShowTransmitView: UIView {
-
-    let joinButton = UIButton().son {
-        $0.setTitle("参加", for: .normal)
-        $0.setTitleColor(Theme.btnColor, for: .normal)
-        $0.tag = HTVMPushState.Join.rawValue
-        $0.titleLabel?.font = UIFont.regularFont(with: Adapter.adjustFont(16))
-    }
-    let transmitButton = UIButton().son {
-        $0.setTitle("转发", for: .normal)
-        $0.setTitleColor(Theme.btnColor, for: .normal)
-        $0.tag = HTVMPushState.Transmit.rawValue
-        $0.titleLabel?.font = UIFont.regularFont(with: Adapter.adjustFont(16))
-    }
-    let vLine: UIView = UIView().son {
-        $0.backgroundColor = Theme.lineColor
-    }
-
-    let hLine: UIView = UIView().son {
-        $0.backgroundColor = Theme.lineColor
-    }
-
-    var meetingId: Int = 0
-    var jumpUrl: String = ""
-    var meetingModel: ConferenceModel? = nil
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        isUserInteractionEnabled = true
-        configSubViews()
-    }
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configSubViews() {
-        addSubview(joinButton)
-        addSubview(transmitButton)
-        addSubview(vLine)
-        addSubview(hLine)
-
-        vLine.snp_makeConstraints { (make) in
-            make.top.bottom.equalToSuperview()
-            make.centerX.equalToSuperview().offset(Adapter.suitW(6))
-            make.width.equalTo(1.0 / UIScreen.main.scale)
-        }
-        hLine.snp_makeConstraints { (make) in
-            make.left.equalToSuperview().offset(Adapter.suitW(6))
-            make.right.top.equalToSuperview()
-            make.height.equalTo(1.0 / UIScreen.main.scale)
-        }
-        transmitButton.snp.makeConstraints { (maker) in
-            maker.left.equalTo(hLine)
-            maker.top.bottom.equalToSuperview()
-            maker.right.equalTo(vLine.snp_left)
-        }
-        joinButton.snp.makeConstraints { (maker) in
-            maker.top.bottom.right.equalToSuperview()
-            maker.left.equalTo(vLine.snp_right)
-        }
-
-        joinButton.addTarget(self, action: #selector(clickBtnAction(_:)), for: .touchUpInside)
-        transmitButton.addTarget(self, action: #selector(clickBtnAction(_:)), for: .touchUpInside)
-    }
-
-    @objc func clickBtnAction(_ sender: UIButton) {
-        let state: HTVMPushState = HTVMPushState(rawValue: sender.tag) ?? .Close
-        if state == .Join { //如果是参加，每次都需要先判断能否加入
-            if let currentVC = HTAPCurrentViewController() {
-                currentVC.showLoading()
-            }
-            HTVideoMeetingMethod.shareInstance.getConferenceIsJoin(meetingId, { [weak self] in
-                if let weakSelf = self {
-                    weakSelf.getSimpleConferenceAndJump(sender)
-                }
-            })
-            return
-        }
-
-        if let model = meetingModel {
-            doJumpAction(sender, model)
-            return
-        }
-        if let currentVC = HTAPCurrentViewController() {
-            currentVC.showLoading()
-        }
-        getSimpleConferenceAndJump(sender)
-    }
-    
-    private func getSimpleConferenceAndJump(_ sender: UIButton) {
-        VideoMeeting.conferenceSimpleDetail(id: meetingId,
-                                      success: { [weak self](model) in
-            if let weakSelf = self {
-                if let currentVC = HTAPCurrentViewController() {
-                    currentVC.stopLoading()
-                }
-                weakSelf.meetingModel = model
-                weakSelf.doJumpAction(sender, model)
-            }
-        }, failure: { (code, msg) in
-            if let currentVC = HTAPCurrentViewController() {
-                currentVC.failure(code: code, msg: msg)
-            }
-        })
-    }
-    
-    private func doJumpAction(_ sender: UIButton, _ remoteConference: ConferenceModel) {
-        let state: HTVMPushState = HTVMPushState(rawValue: sender.tag) ?? .Close
-        if let currentVC = HTAPCurrentViewController() {
-            if state == .Join {
-                HTVideoMeetingMethod.shareInstance.clickConferenceModel(remoteConference, currentVC)
-            } else if state == .Transmit {
-                HTVideoMeetingMethod.shareInstance.doTransmissionAction(remoteConference, currentVC)
-            }
-        }
-    }
-}
-
 class PSQuestionView: UIView {
 
     var dataSource: [PSInfoObject] = [] {
@@ -362,9 +244,9 @@ class PSQuestionView: UIView {
                 questionContent = (questionContent as NSString).replacingOccurrences(of: "{", with: " ")
                 questionContent = (questionContent as NSString).replacingOccurrences(of: "}", with: " ")
             }
-            let detailLabel = YYLabel().son {
+            let detailLabel = YYLabel().HTSon {
                 $0.font = descriptionFont
-                $0.textColor = Theme.btnColor
+                $0.textColor = HTTheme.btnColor
                 $0.numberOfLines = 0
                 $0.isUserInteractionEnabled = true
                 $0.preferredMaxLayoutWidth = CGFloat(p_titleContentWidth)
@@ -372,10 +254,10 @@ class PSQuestionView: UIView {
             detailLabel.text = questionContent
             let text = NSMutableAttributedString(string: questionContent)
             text.yy_font = descriptionFont
-            text.yy_color = index == dataSource.count ? Theme.aTextColor : Theme.btnColor
+            text.yy_color = index == dataSource.count ? HTTheme.aTextColor : HTTheme.btnColor
             text.yy_alignment = .left
             if index == dataSource.count { // 最后一个
-                text.yy_setColor(Theme.btnColor, range: phoneRange)
+                text.yy_setColor(HTTheme.btnColor, range: phoneRange)
                 let hi = YYTextHighlight()
                 hi.tapAction = { containerView, text, range, rect in
                     var number:String = (questionContent as NSString).substring(with: phoneRange)
@@ -406,18 +288,18 @@ class PSQuestionView: UIView {
             }
             detailLabel.attributedText = text
             addSubview(detailLabel)
-            let titleHeight = descriptionFont.size(of: questionContent + "12345", constrainedToWidth: p_titleContentWidth).height
+            let titleHeight = descriptionFont.HTAppSize(of: questionContent + "12345", constrainedToWidth: p_titleContentWidth).height
             if topView == nil {
                 detailLabel.snp_makeConstraints { (make) in
                     make.left.right.equalToSuperview()
                     make.top.equalToSuperview()
-                    make.height.equalTo(titleHeight + Adapter.suitW(8))
+                    make.height.equalTo(titleHeight + HTAdapter.suitW(8))
                 }
             } else {
                 detailLabel.snp_makeConstraints { (make) in
                     make.left.right.equalToSuperview()
                     make.top.equalTo(topView!.snp_bottom)
-                    make.height.equalTo(titleHeight + Adapter.suitW(8))
+                    make.height.equalTo(titleHeight + HTAdapter.suitW(8))
                 }
             }
             topView = detailLabel
@@ -427,33 +309,17 @@ class PSQuestionView: UIView {
 
     @objc func resendQuestion(_ info: PSInfoObject) {
         if let currentVc = HTAPCurrentViewController() {
-            if UserUtils.isBlankString(info.value) == false && info.value.contains("http") {
-                MobClick.event(MobClickEvent.appservice_info_question)
-                guard info.value != "" else {
-                    return
+            if info.value != "" && info.value.contains("http") {
+//                MobClick.event(MobClickEvent.appservice_info_question)
+                if let url = URL(string: info.value) {
+                    let shared = HTAppPublicServiceCellManager.shared
+                    if let handle = shared.attributedLabelDidSelectedLink {
+                        handle(url)
+                    }
                 }
-                let pathExtenstion:String = (info.value as NSString).pathExtension
-                guard pathExtenstion != "apk" else {
-                    currentVc.showTips(withTitle: "不支持apk链接!")
-                    return
-                }
-                let vc = VideoWebViewController()
-                vc.isHiddenNavBar = true
-                vc.urlStr = info.value
-                var dic:[String:Any] = [:]
-                dic["user"] = Global.sharedInstance.user?.toDictionary()
-                let data:Data? = try? JSONSerialization.data(withJSONObject: dic, options: [])
-                if data == nil {
-                    HTPrint("data is nil")
-                    return
-                }
-                let jsonStr:String = String(data: data!, encoding: String.Encoding.utf8)!
-                vc.jsFunc = "getNewOATokenInfo('\(jsonStr)')"
-                vc.webView.scrollView.bounces = true
-                currentVc.push(viewController: vc)
                 return
             }
-            MobClick.event(MobClickEvent.appservice_info_question, attributes: ["value":info.title])
+//            MobClick.event(MobClickEvent.appservice_info_question, attributes: ["value":info.title])
             let content = RCTextMessage()
             content.content = info.title
             RCIM.shared()?.sendMessage(.ConversationType_APPSERVICE, targetId: HTAppPublicServiceCommonManager.shared.targetId, content: content, pushContent: nil, pushData: nil, success: { (code) in

@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RongIMKit
+import RongIMLib
+import AudioToolbox
 
 class HTAppPublicServiceCommonManager: NSObject {
     static let shared: HTAppPublicServiceCommonManager = HTAppPublicServiceCommonManager()
@@ -110,7 +113,7 @@ class HTAppPublicServiceCommonManager: NSObject {
     public func applicationWillResignActive(_ application: UIApplication) {
         let status = RCIMClient.shared()?.getConnectionStatus()
         if !(status == RCConnectionStatus.ConnectionStatus_SignUp) {
-            let unreadMsgCount: Int = HTOAModel.getRCIMClientUnReadCount()
+            let unreadMsgCount: Int = getRCIMClientUnReadCount()
             application.applicationIconBadgeNumber = unreadMsgCount
         }
     }
@@ -118,19 +121,37 @@ class HTAppPublicServiceCommonManager: NSObject {
 }
 
 extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMReceiveMessageDelegate {
+    func RCIMDisplayConversationTypes() -> [UInt] {
+        return [RCConversationType.ConversationType_PRIVATE.rawValue,
+        RCConversationType.ConversationType_DISCUSSION.rawValue,
+        RCConversationType.ConversationType_GROUP.rawValue,
+        RCConversationType.ConversationType_CHATROOM.rawValue,
+        RCConversationType.ConversationType_CUSTOMERSERVICE.rawValue,
+        RCConversationType.ConversationType_SYSTEM.rawValue,
+        RCConversationType.ConversationType_APPSERVICE.rawValue]
+    }
+
+    func getRCIMClientUnReadCount() -> Int {
+        var count: Int = 0
+        let type = self.RCIMDisplayConversationTypes()
+        if let unreadMsgCount = RCIMClient.shared()?.getUnreadCount(type) {
+            count = Int(max(0, unreadMsgCount))
+        }
+        return count
+    }
     
     func connetIMServer() {
         HTAPIMUserManager.shared.getCurrentUserToken({ (imToken) in
             HTAPIMUserManager.shared.RCIMConnect(imToken, success: { (userID) in
-                HTPrint("userID: \(userID).........")
+                print("userID: \(userID).........")
                 HTAPIMUserManager.shared.getUserInfo(withUserId: userID, completion: { (userInfo) in
 
                 })
             }, tokenInConnect: {
-                HTPrint("token过期或者不正确,")
+                print("token过期或者不正确,")
                 
             }) { (code, msg) in
-                HTPrint("code:\(code)....msg:\(msg)..")
+                print("code:\(code)....msg:\(msg)..")
             }
         }) { (code, msg) in
             
@@ -147,7 +168,7 @@ extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMRec
         if noti.name == Notification.Name.RCKitDispatchMessage {
             if let left = noti.userInfo?["left"] as? Int {
                 if RCIMClient.shared()?.sdkRunningMode == RCSDKRunningMode.background && left == 0 {
-                    let unreadMsgCount: Int = HTOAModel.getRCIMClientUnReadCount()
+                    let unreadMsgCount: Int = getRCIMClientUnReadCount()
                     DispatchQueue.main.async {
                         UIApplication.shared.applicationIconBadgeNumber = unreadMsgCount
                     }

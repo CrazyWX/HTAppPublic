@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import RongIMKit
 //import SwiftyJSON
-//import Photos
+import Photos
 
 class PublicServiceViewController: RCPublicServiceChatViewController {
 
-    private let navi = HTNaviBarView().son {
+    private let navi = HTNaviBarView().HTSon {
         $0.configureLeftButton(image: UIImage(named: "Back"))
     }
     weak var delegate: HTAppPublicServiceDelegate? = nil
@@ -55,13 +56,13 @@ class PublicServiceViewController: RCPublicServiceChatViewController {
     
     private var _longGestureIndexPath: IndexPath?
                
-    public var headerView: UIView = UIView().son {
+    public var headerView: UIView = UIView().HTSon {
         // 头部额外增加的view
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        register(PSMessageCell.classForCoder(), forMessageClass: RCTextMessage.classForCoder())
+        register(PSMessageCell.self, forMessageClass: RCTextMessage.classForCoder())
         configureSubviews()
         configureChatSetting()
     }
@@ -79,7 +80,7 @@ class PublicServiceViewController: RCPublicServiceChatViewController {
             
     private func configureSubviews() {
         navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = Theme.backgroundColor
+        view.backgroundColor = HTTheme.backgroundColor
         if let del = delegate {
             if let rightBarItemTitle = del.naviBarRightButtonTitle?(targetId) {
                 navi.configureRightButton(text: rightBarItemTitle)
@@ -195,7 +196,7 @@ extension PublicServiceViewController {
     }
         
     override func onPublicServiceMenuItemSelected(_ selectedMenuItem: RCPublicServiceMenuItem!) {
-        if let del = delegate, let menuId = selectedMenuItem.id.toInt() {
+        if let del = delegate, let menuId = selectedMenuItem.id.HTtoInt() {
             del.appPublicServiceMenuDidSeleted?(menuId)
         }
     }
@@ -250,7 +251,7 @@ extension PublicServiceViewController {
         /*if cell.isKind(of: RCTextMessageCell.classForCoder()) {
             (cell as! RCTextMessageCell).delegate = self
         }*/
-        if cell.isKind(of: PSMessageCell.classForCoder()) {
+        if cell.isKind(of: PSMessageCell.self) {
             let pCell: PSMessageCell = (cell as! PSMessageCell)
             pCell.nicknameLabel.isHidden = true
             let rect = pCell.messageContentView.frame

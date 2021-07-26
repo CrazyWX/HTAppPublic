@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RongIMKit
 
 class HTAPIMUserManager: NSObject, RCIMUserInfoDataSource{
     

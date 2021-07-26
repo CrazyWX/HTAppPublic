@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 let kHTScreenBounds = UIScreen.main.bounds
 let kHTScreenSize   = kHTScreenBounds.size
@@ -36,11 +37,11 @@ struct HTAdapter {
     
     static func adjustFont(_ fontSize:CGFloat) ->CGFloat{
         var _fontSize:CGFloat = 0
-        if (kScreenHeight == 667){
+        if (kHTScreenHeight == 667){
             _fontSize = fontSize
-        }else if (kScreenHeight == 736){
+        }else if (kHTScreenHeight == 736){
             _fontSize = fontSize + 1
-        }else if (kScreenHeight == 568){
+        }else if (kHTScreenHeight == 568){
             _fontSize = fontSize - 2
         }else{
             _fontSize = fontSize
@@ -49,11 +50,11 @@ struct HTAdapter {
     }
     
     static func suitW(_ width:CGFloat) ->CGFloat {
-        return kScreenWidth / 375 * width
+        return kHTScreenWidth / 375 * width
     }
     
     static func suitH(_ height:CGFloat) -> CGFloat {
-        return kScreenHeight / 667 * height
+        return kHTScreenHeight / 667 * height
     }
     
     static func setShadow(_ view:UIView ,color:UIColor){
@@ -65,27 +66,27 @@ struct HTAdapter {
 
 struct HTTheme {
     
-    static let btnColor = UIColorFromRGB(rgbValue: 0x4a88fb)
+    static let btnColor = HTUIColorFromRGB(rgbValue: 0x4a88fb)
     
-    static let whiteBackColor = UIColorFromRGB(rgbValue: 0xffffff)
+    static let whiteBackColor = HTUIColorFromRGB(rgbValue: 0xffffff)
     
-    static let backgroundColor = UIColorFromRGB(rgbValue: 0xf6f7fb)
+    static let backgroundColor = HTUIColorFromRGB(rgbValue: 0xf6f7fb)
     
-    static let lineColor = UIColorFromRGB(rgbValue: 0xeef1f6)
+    static let lineColor = HTUIColorFromRGB(rgbValue: 0xeef1f6)
     
-    static let aTextColor = UIColorFromRGB(rgbValue: 0x373d46)
+    static let aTextColor = HTUIColorFromRGB(rgbValue: 0x373d46)
     
-    static let bTextColor = UIColorFromRGB(rgbValue: 0x8f9296)
+    static let bTextColor = HTUIColorFromRGB(rgbValue: 0x8f9296)
     
-    static let tagColor = UIColorFromRGB(rgbValue: 0xc1c2c5)
+    static let tagColor = HTUIColorFromRGB(rgbValue: 0xc1c2c5)
     
-    static let redAssColor = UIColorFromRGB(rgbValue: 0xf16164)
+    static let redAssColor = HTUIColorFromRGB(rgbValue: 0xf16164)
     
-    static let orgAssColor = UIColorFromRGB(rgbValue: 0xffba6d)
+    static let orgAssColor = HTUIColorFromRGB(rgbValue: 0xffba6d)
     
-    static let greeAssColor = UIColorFromRGB(rgbValue: 0x46ae6e)
+    static let greeAssColor = HTUIColorFromRGB(rgbValue: 0x46ae6e)
     
-    static let cTextColor = UIColorFromRGB(rgbValue: 0x5c5e63)
+    static let cTextColor = HTUIColorFromRGB(rgbValue: 0x5c5e63)
 
 }
 
@@ -135,7 +136,7 @@ extension UIFont {
     
     static func HTAppDynamicLightFont(with size : CGFloat ,
                                  delta : CGFloat) -> UIFont{
-        return UIFont.HTAppLightFont(with: kScreenWidth == 320 ? size - delta : size)
+        return UIFont.HTAppLightFont(with: kHTScreenWidth == 320 ? size - delta : size)
     }
     
     static func HTAppDynamicRegularFont(with size : CGFloat)->UIFont{
@@ -145,7 +146,7 @@ extension UIFont {
     
     static func HTAppDynamicRegularFont(with size : CGFloat,
                                    delta : CGFloat) -> UIFont{
-        return UIFont.HTAppRegularFont(with: kScreenWidth == 320 ? size - delta : size)
+        return UIFont.HTAppRegularFont(with: kHTScreenWidth == 320 ? size - delta : size)
     }
     
     
@@ -155,7 +156,7 @@ extension UIFont {
     
     static func HTAppDynamicMediumFont(with size : CGFloat ,
                                   delta : CGFloat) -> UIFont{
-        return UIFont.HTAppMediumFont(with: kScreenWidth == 320 ? size - delta : size)
+        return UIFont.HTAppMediumFont(with: kHTScreenWidth == 320 ? size - delta : size)
     }
 }
 
@@ -192,7 +193,7 @@ func HTAPShowTip(tips:String,delay:Double = 1.5, viewController: UIViewControlle
     hud.mode = MBProgressHUDMode.text;
 //        hud.bezelView.color = UIColor.black
     hud.bezelView.style = .solidColor
-    hud.bezelView.color = UIColorFromRGB(rgbValue: 0x111111,
+    hud.bezelView.color = HTUIColorFromRGB(rgbValue: 0x111111,
                                          alpha: 0.7)
     hud.detailsLabel.textColor = UIColor.white
     hud.detailsLabel.text = tips

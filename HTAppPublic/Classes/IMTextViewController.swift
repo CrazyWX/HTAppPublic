@@ -16,14 +16,14 @@ class IMTextViewController: UIViewController {
         }
     }
     
-    let textView = UITextView().son {
+    let textView = UITextView().HTSon {
         $0.font = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(24))
         $0.textColor = UIColor.black
         $0.isEditable = false
     }
     
     var height:CGFloat! {
-        let tHeight = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(24)).size(of: text, constrainedToWidth: Double(kHTScreenWidth - HTAdapter.suitW(30))).height + 5
+        let tHeight = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(24)).HTAppSize(of: text, constrainedToWidth: Double(kHTScreenWidth - HTAdapter.suitW(30))).height + 5
         if tHeight < kHTScreenHeight {
             return tHeight
         }else {
@@ -49,6 +49,6 @@ class IMTextViewController: UIViewController {
     }
 
     @objc func tapTextView() {
-        self.dismissViewController()
+        self.dismiss(animated: true, completion: nil)
     }
 }
