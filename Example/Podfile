@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'HTAppPublic_Example' do
+  pod 'HTAppPublic', :path => '../'
+
+  target 'HTAppPublic_Tests' do
+    inherit! :search_paths
+
+    pod 'FBSnapshotTestCase' , '~> 2.1.4'
+  end
+end
