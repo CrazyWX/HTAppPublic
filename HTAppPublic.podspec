@@ -32,9 +32,9 @@ TODO: Add long description of the pod here.
 
   s.source_files = 'HTAppPublic/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'HTAppPublic' => ['HTAppPublic/Assets/*.png']
-  # }
+  s.resource_bundles = {
+     'HTAppPublic' => ['HTAppPublic/Assets/*.png']
+  }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
@@ -47,5 +47,7 @@ TODO: Add long description of the pod here.
  s.dependency 'RongCloudIM/IMLib', '~> 2.10.4'
  s.dependency 'RongCloudIM/IMKit', '~> 2.10.4'
  s.dependency 'Masonry', '1.1.0'
+ s.dependency 'YYText'
+ s.dependency 'YYWebImage'
 
 end

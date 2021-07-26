@@ -18,5 +18,36 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "HTAppPublic/Classes/**/*"
+  "source_files": "HTAppPublic/Classes/**/*",
+  "resource_bundles": {
+    "HTAppPublic": [
+      "HTAppPublic/Assets/*.png"
+    ]
+  },
+  "dependencies": {
+    "Alamofire": [
+
+    ],
+    "SnapKit": [
+
+    ],
+    "SwiftyJSON": [
+      "4.1.0"
+    ],
+    "MBProgressHUD": [
+      "~> 1.0.0"
+    ],
+    "SVProgressHUD": [
+
+    ],
+    "RongCloudIM/IMLib": [
+      "~> 2.10.4"
+    ],
+    "RongCloudIM/IMKit": [
+      "~> 2.10.4"
+    ],
+    "Masonry": [
+      "1.1.0"
+    ]
+  }
 }

@@ -1,10 +1,27 @@
 PODS:
+  - Alamofire (4.9.1)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
-  - HTAppPublic (0.1.0)
+  - HTAppPublic (0.1.0):
+    - Alamofire
+    - Masonry (= 1.1.0)
+    - MBProgressHUD (~> 1.0.0)
+    - RongCloudIM/IMKit (~> 2.10.4)
+    - RongCloudIM/IMLib (~> 2.10.4)
+    - SnapKit
+    - SVProgressHUD
+    - SwiftyJSON (= 4.1.0)
+  - Masonry (1.1.0)
+  - MBProgressHUD (1.0.0)
+  - RongCloudIM/IMKit (2.10.6):
+    - RongCloudIM/IMLib
+  - RongCloudIM/IMLib (2.10.6)
+  - SnapKit (4.2.0)
+  - SVProgressHUD (2.2.5)
+  - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
   - FBSnapshotTestCase (~> 2.1.4)
@@ -12,16 +29,30 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - FBSnapshotTestCase
+    - Masonry
+    - MBProgressHUD
+    - RongCloudIM
+    - SnapKit
+    - SVProgressHUD
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
   HTAppPublic:
     :path: "../"
 
 SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  HTAppPublic: 60be95dffac2a33ea3bff50ed80cb98d8fb415aa
+  HTAppPublic: e64ebfc27eb316583c762259b25459a45f67c513
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  RongCloudIM: b1768dcb3af90d00ce621f7de4f787285435fbe3
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 943d2ecd1fa4733ca7f5748a87fa16fb38e75cf5
+PODFILE CHECKSUM: e75d988e01f7792dcacf3b6424bca6bf63460b79
 
 COCOAPODS: 1.10.1
