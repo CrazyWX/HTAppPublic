@@ -1,0 +1,6 @@
+framework module HTAppPublic {
+  umbrella header "HTAppPublic-umbrella.h"
+
+  export *
+  module * { export * }
+}

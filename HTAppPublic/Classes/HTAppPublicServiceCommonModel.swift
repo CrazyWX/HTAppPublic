@@ -1,0 +1,351 @@
+//
+//  HTAppPublicServiceCommonModel.swift
+//  HTOA
+//
+//  Created by 王霞 on 2021/4/26.
+//  Copyright © 2021 Personal. All rights reserved.
+//
+
+import UIKit
+import SwiftyJSON
+
+enum PublicServiceModelType: Int {
+    case Unknown = 0 // 未知
+    case Normal = 1 // 普通文本
+    case VideoMeeting = 2 // 视频会议
+    case Question = 4 // 问答
+    case InfoDetailToOriginal = 5 // 考勤异常
+    case InfoDetailToH5 = 6 // 查看详情，进入h5
+    case InfoDetailToUser = 7 // 查看详情，进入个人信息
+    case InfoDetailToAgent = 8 //审批代理
+    case InfoDetailToAttendanceReport = 9 //考勤月报表
+    case SupervisorService = 10//督学服务
+    case PersonalHomePage = 11//进入个人主页
+    case BUSetting = 12//BU设置
+    case InfoDetailNoMore = 13
+}
+
+//MARK: - 信息卡片模型
+class PSInfoObject: NSObject {
+    var title: String = ""
+    var value: String = ""
+    
+    init(_ json: JSON) {
+        title = json["templateKey"].stringValue
+        value = json["templateValue"].stringValue
+    }
+    override init() {
+    }
+}
+
+struct HTAppPublicCommonData {
+    var content: String = ""
+    //是否包含外链接需要处理。如果为true，需要移动端处理<esbhref>{此处为外链信息JSON串}</esbhref>
+    var includeHref: Bool = false
+    init(_ json: JSON) {
+        if json["formContent"] != JSON.null {
+            content = json["formContent"].stringValue
+        } else if json["secondHeadContent"] != JSON.null {
+            content = json["secondHeadContent"].stringValue
+        }
+        includeHref = json["includeHref"].boolValue
+    }
+}
+struct HTAppPublicButtonData {
+    var hrefType: Int = 0 //链接类型 1：H5 2：原生 3: 电话
+    var url: String = ""//链接地址，包含参数。H5及原生都使用此种方式传参
+    var showText: String = "" //展示的按钮名字
+    var secret: String = "" //密钥
+    init(_ json: JSON) {
+        hrefType = json["hrefType"].intValue
+        url = json["url"].stringValue
+        showText = json["showText"].stringValue
+        secret = json["secret"].stringValue
+    }
+}
+
+class PSMessageModel: NSObject {
+    var template: [PSInfoObject] = []
+    var type: PublicServiceModelType = .Unknown
+    var head: String = ""
+    var title: String = ""
+    var url: String = ""
+    var id: Int = 0
+    var endTitle: String = ""
+    
+    var version: String = ""
+    var firstHead: String = ""
+    var secondHead: HTAppPublicCommonData?
+    var form: HTAppPublicCommonData?
+    var buttonList: [HTAppPublicButtonData] = []
+    
+    override init() {
+        //
+    }
+    
+    init(_ json: JSON) {
+        version = json["version"].stringValue
+        if version == "v2" { //标识版本，方便移动端兼容。固定传值v2，代表使用新的ESB对接方式
+            firstHead = json["firstHead"].stringValue
+            secondHead = HTAppPublicCommonData(json["secondHead"])
+            form = HTAppPublicCommonData(json["form"])
+            buttonList = json["buttonList"].arrayValue.map({ each in
+                return HTAppPublicButtonData(each)
+            })
+        } else { // 旧接口
+            type = PublicServiceModelType(rawValue: json["type"].intValue) ?? .Unknown
+            if type.rawValue > PublicServiceModelType.InfoDetailNoMore.rawValue {
+                title = "当前版本不支持该信息，请升级最新版本"
+                return
+            }
+            template = json["template"].arrayValue.map({ (each) -> PSInfoObject in
+                return PSInfoObject(each)
+            })
+            if json["template"] == JSON.null {
+                type = .Normal
+            }
+            head = json["head"].stringValue
+            title = json["title"].stringValue
+
+            url = json["url"].stringValue
+            id = json["id"].intValue
+            
+            endTitle = json["endTitle"].stringValue
+            if UserUtils.isBlankString(endTitle) == true {
+                endTitle = "查看更多"
+            }
+            if type == .InfoDetailNoMore {
+                endTitle = ""
+            }
+        }
+    }
+    var shouldShowInfoDetail: Bool {
+        get {
+            if type == .Unknown || type == .Normal || type == .VideoMeeting || type == .Question || type == .InfoDetailNoMore {
+                return false
+            }
+            return true
+        }
+    }
+    func getHyperLinkTitle(_ label: TTTAttributedLabel? = nil, _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
+        let leftString: String = "#*￥$#{"
+        let rightString: String = "}#*￥$#"
+        let totalLength: Int = leftString.count - 1
+        var leftRanges: [NSRange] = []
+        var rightRanges: [NSRange] = []
+        if #available(iOS 10.2, *) {
+            leftRanges = title.nsranges(of: leftString)
+            rightRanges = title.nsranges(of: rightString)
+        } else {
+            let leftRange: NSRange = (title as NSString).range(of: leftString)
+            let rightRange: NSRange = (title as NSString).range(of: rightString)
+            leftRanges = [leftRange]
+            rightRanges = [rightRange]
+        }
+
+        var newContent: String = title
+        if leftRanges.count > 0 && rightRanges.count > 0 && leftRanges.count <= rightRanges.count {
+            var linkContents: [String] = []
+            var linkValues: [String] = []
+            var hyperLinkRanges: [NSRange] = []
+            var newUrlStrings: [String] = []
+            var minusValueCount: Int = 0
+            for (index, leftRange) in leftRanges.enumerated() {
+                let rightRange = rightRanges[index]
+                let location: Int = leftRange.location + totalLength
+                let length: Int = rightRange.location - leftRange.location - (totalLength - 1)
+                let linkRange = NSRange(location: location, length: length)
+                let linkContent: String = (newContent as NSString).substring(with: linkRange)
+                let jsonValue: JSON = JSON.init(parseJSON: linkContent)
+                let linkName: String = jsonValue["viewName"].stringValue
+                let linkValue: String = "{\(linkName)}"
+                linkContents.append(linkContent)
+                linkValues.append(linkValue)
+                let hyperLinkRange = NSRange(location: leftRange.location - minusValueCount, length: linkValue.count)
+                hyperLinkRanges.append(hyperLinkRange)
+                let newUrlString: String = "scheme://?type=\(jsonValue["type"])&url=\(jsonValue["url"])&viewName=\(jsonValue["viewName"])"
+                newUrlStrings.append(newUrlString)
+                minusValueCount = minusValueCount + (linkContent.count - linkValue.count) + totalLength * 2
+            }
+            for (index, linkContent) in linkContents.enumerated() {
+                newContent = (newContent as NSString).replacingOccurrences(of: linkContent, with: linkValues[index])
+            }
+            newContent = (newContent as NSString).replacingOccurrences(of: leftString, with: " ")
+            newContent = (newContent as NSString).replacingOccurrences(of: rightString, with: " ")
+
+            if let _ = label {
+                if let handle = block {
+                    handle(newUrlStrings, hyperLinkRanges)
+                }
+            }
+            return newContent
+        }
+        return title
+    }
+    //MARK: -----------  获取超链接文本内容 ------------
+    func getHyperLinkTemplateContent(_ content: String? = nil,
+                                     _ label: TTTAttributedLabel? = nil,
+                                     _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
+        if let formContent = content {
+            let leftString: String = "<esbhref>{"
+            let rightString: String = "}</esbhref>"
+            let totalLength: Int = leftString.count - 1
+            let allTotalLength: Int = totalLength + rightString.count - 1
+            var leftRanges: [NSRange] = []
+            var rightRanges: [NSRange] = []
+            if #available(iOS 10.2, *) {
+                leftRanges = formContent.nsranges(of: leftString)
+                rightRanges = formContent.nsranges(of: rightString)
+            } else {
+                let leftRange: NSRange = (formContent as NSString).range(of: leftString)
+                let rightRange: NSRange = (formContent as NSString).range(of: rightString)
+                leftRanges = [leftRange]
+                rightRanges = [rightRange]
+            }
+
+            var newContent: String = formContent
+            if leftRanges.count > 0 && rightRanges.count > 0 && leftRanges.count <= rightRanges.count {
+                var linkContents: [String] = []
+                var linkValues: [String] = []
+                var hyperLinkRanges: [NSRange] = []
+                var newUrlStrings: [String] = []
+                var minusValueCount: Int = 0
+                for (index, leftRange) in leftRanges.enumerated() {
+                    let rightRange = rightRanges[index]
+                    let location: Int = leftRange.location + totalLength
+                    let length: Int = rightRange.location - leftRange.location - (totalLength - 1)
+                    let linkRange = NSRange(location: location, length: length)
+                    let linkContent: String = (newContent as NSString).substring(with: linkRange)
+                    let jsonValue: JSON = JSON.init(parseJSON: linkContent)
+                    let linkName: String = jsonValue["showText"].stringValue
+                    let linkValue: String = "{\(linkName)}"
+                    linkContents.append(linkContent)
+                    linkValues.append(linkValue)
+                    let hyperLinkRange = NSRange(location: leftRange.location - minusValueCount, length: linkValue.count)
+                    hyperLinkRanges.append(hyperLinkRange)
+                    let newUrlString: String = "scheme://?hrefType=\(jsonValue["hrefType"])&url=\(jsonValue["url"])&showText=\(jsonValue["showText"])&secret=\(jsonValue["secret"])"
+                    newUrlStrings.append(newUrlString)
+                    minusValueCount = minusValueCount + (linkContent.count - linkValue.count) + allTotalLength
+                }
+                for (index, linkContent) in linkContents.enumerated() {
+                    newContent = (newContent as NSString).replacingOccurrences(of: linkContent, with: linkValues[index])
+                }
+                newContent = (newContent as NSString).replacingOccurrences(of: leftString, with: " ")
+                newContent = (newContent as NSString).replacingOccurrences(of: rightString, with: " ")
+
+                if let _ = label {
+                    if let handle = block {
+                        handle(newUrlStrings, hyperLinkRanges)
+                    }
+                }
+                return newContent
+            }
+            return formContent
+        }
+        return ""
+    }
+
+    func modelHeight(_ width: Double = 0.0) -> CGFloat {
+        if version != "" {
+            return templateInfoDetailHeight(width)
+        }
+        if type == .Unknown || type == .Normal {
+            return normalHeight(width)
+        } else {
+            if type == .Question {
+                return infoQuestionHeight()
+            }
+            return infoDetailHeight(width)
+        }
+    }
+    func templateHeight(_ width: Double = 0.0) -> CGFloat {
+        var totalHeight: CGFloat = 0.0
+        template.forEach { (info) in
+            let titleHeight = descriptionFont.size(of: info.title + " : " + info.value, constrainedToWidth: viewLabelContentWidth(width)).height
+            totalHeight =  totalHeight + titleHeight
+        }
+        return totalHeight + HTAdapter.suitW(20)
+    }
+    func questionTemplateHeight(_ width: Double = 0.0) -> CGFloat {
+        var totalHeight: CGFloat = HTAdapter.suitW(4.0)
+        var index: Int = 1
+        template.forEach { (info) in
+            let titleHeight = descriptionFont.size(of: "\(index)." + info.title + "12345", constrainedToWidth: viewLabelContentWidth(width)).height
+            totalHeight =  totalHeight + titleHeight + HTAdapter.suitW(8.0)
+            index = index + 1
+        }
+        return totalHeight + HTAdapter.suitW(4.0)
+    }
+
+    private func normalHeight(_ width: Double = 0.0) -> CGFloat {
+        let titleHeight: CGFloat = descriptionFont.size(of: getHyperLinkTitle(), constrainedToWidth: viewLabelContentWidth(width)).height
+        return HTAdapter.suitW(20) + titleHeight
+    }
+    
+    private func infoDetailHeight(_ width: Double = 0.0) -> CGFloat {
+        let contentWidth: Double = viewLabelContentWidth(width)
+        var resultHeight: CGFloat = HTAdapter.suitW(10)
+        if UserUtils.isBlankString(head) == false {
+            let titleHeight: CGFloat = titleFont.size(of: head, constrainedToWidth: contentWidth).height
+            resultHeight = resultHeight + titleHeight
+        }
+        /// 描述字段非空
+        if UserUtils.isBlankString(title) == false {
+            let detailHeight: CGFloat = descriptionFont.size(of: title, constrainedToWidth: contentWidth).height
+            resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
+        }
+        let totalHeight: CGFloat = templateHeight()
+        /// 分段字段非空
+        if template.count > 0 {
+            resultHeight = resultHeight + HTAdapter.suitW(8) + totalHeight
+        } else {
+            resultHeight = resultHeight + HTAdapter.suitW(20)
+        }
+        /// 是否显示查看更多
+        if type != .InfoDetailNoMore {
+            resultHeight = resultHeight + HTAdapter.suitW(44)
+        }
+        return resultHeight
+    }
+    //MARK: -----------  模板内容高度 ------------
+    private func templateInfoDetailHeight(_ width: Double = 0.0) -> CGFloat {
+        let contentWidth: Double = viewLabelContentWidth(width)
+        var resultHeight: CGFloat = HTAdapter.suitW(10)
+        /// 主标题
+        if firstHead != "" {
+            let titleHeight: CGFloat = titleFont.size(of: firstHead, constrainedToWidth: contentWidth).height
+            resultHeight = resultHeight + titleHeight
+        }
+        /// 副标题
+        if secondHead?.content != "" {
+            let detailHeight: CGFloat = descriptionFont.size(of: getHyperLinkTemplateContent(secondHead?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
+        }
+        /// 表项
+        if form?.content != "" {
+            let detailHeight: CGFloat = descriptionFont.size(of: getHyperLinkTemplateContent(form?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
+        }
+        resultHeight = resultHeight + HTAdapter.suitW(8)
+        /// 是否显示查看更多
+        if buttonList.count > 0 {
+            var btnCount: Int = buttonList.count
+            btnCount = (btnCount % 2 == 1) ? (1 + btnCount / 2) : btnCount / 2
+            resultHeight = resultHeight + HTAdapter.suitW(44) * CGFloat(btnCount)
+        }
+        return resultHeight
+    }
+
+    private func infoQuestionHeight() -> CGFloat {
+        let contentWidth: Double = viewLabelContentWidth()
+        var titleHeight: CGFloat = 0
+        if UserUtils.isBlankString(head) == false {
+            titleHeight = descriptionFont.size(of: head, constrainedToWidth: contentWidth).height + HTAdapter.suitW(8)
+        }
+        let totalHeight: CGFloat = questionTemplateHeight()
+        return HTAdapter.suitW(10) + titleHeight + totalHeight
+    }
+
+}
+
+

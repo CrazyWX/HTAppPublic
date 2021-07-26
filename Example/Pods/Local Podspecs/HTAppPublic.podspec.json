@@ -1,0 +1,22 @@
+{
+  "name": "HTAppPublic",
+  "version": "0.1.0",
+  "summary": "A short description of HTAppPublic.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/CrazyWX/HTAppPublic",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "CrazyWX": "wangxia03@huatu.com"
+  },
+  "source": {
+    "git": "https://github.com/CrazyWX/HTAppPublic.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "HTAppPublic/Classes/**/*"
+}
