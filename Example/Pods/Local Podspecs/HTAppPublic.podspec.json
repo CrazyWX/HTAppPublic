@@ -18,16 +18,13 @@
   "platforms": {
     "ios": "9.0"
   },
-  "source_files": "HTAppPublic/Classes/**/*",
+  "source_files": "HTAppPublic/Classes/**/*.{h,m,swift}",
   "resource_bundles": {
     "HTAppPublic": [
       "HTAppPublic/Assets/*.png"
     ]
   },
   "dependencies": {
-    "Alamofire": [
-
-    ],
     "SnapKit": [
 
     ],
@@ -37,9 +34,6 @@
     "MBProgressHUD": [
       "~> 1.0.0"
     ],
-    "SVProgressHUD": [
-
-    ],
     "RongCloudIM/IMLib": [
       "~> 2.10.4"
     ],
@@ -48,6 +42,31 @@
     ],
     "Masonry": [
       "1.1.0"
+    ],
+    "YYText": [
+
+    ],
+    "YYWebImage": [
+
     ]
-  }
+  },
+  "static_framework": true,
+  "subspecs": [
+    {
+      "name": "HTAppPublicVendor",
+      "source_files": "",
+      "ios": {
+        "vendored_frameworks": [
+          "RongCloudIM/RongCloudIM/RongIMKit.framework",
+          "RongCloudIM/RongCloudIM/RongIMLib.framework"
+        ],
+        "vendored_libraries": [
+          "RongCloudIM/RongCloudIM/libopencore-amrnb.a",
+          "RongCloudIM/RongCloudIM/libopencore-amrwb.a",
+          "RongCloudIM/RongCloudIM/libvo-amrwbenc.a"
+        ],
+        "libraries": "sqlite3"
+      }
+    }
+  ]
 }

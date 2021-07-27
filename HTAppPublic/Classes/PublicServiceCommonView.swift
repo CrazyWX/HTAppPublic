@@ -308,24 +308,98 @@ class PSQuestionView: UIView {
     }
 
     @objc func resendQuestion(_ info: PSInfoObject) {
-        if let currentVc = HTAPCurrentViewController() {
-            if info.value != "" && info.value.contains("http") {
+        if info.value != "" && info.value.contains("http") {
 //                MobClick.event(MobClickEvent.appservice_info_question)
-                if let url = URL(string: info.value) {
-                    let shared = HTAppPublicServiceCellManager.shared
-                    if let handle = shared.attributedLabelDidSelectedLink {
-                        handle(url)
-                    }
+            if let url = URL(string: info.value) {
+                let shared = HTAppPublicServiceCellManager.shared
+                if let handle = shared.attributedLabelDidSelectedLink {
+                    handle(url)
                 }
-                return
             }
-//            MobClick.event(MobClickEvent.appservice_info_question, attributes: ["value":info.title])
-            let content = RCTextMessage()
-            content.content = info.title
-            RCIM.shared()?.sendMessage(.ConversationType_APPSERVICE, targetId: HTAppPublicServiceCommonManager.shared.targetId, content: content, pushContent: nil, pushData: nil, success: { (code) in
-            }, error: { (code, messageID) in
-            })
+            return
         }
+//            MobClick.event(MobClickEvent.appservice_info_question, attributes: ["value":info.title])
+        let content = RCTextMessage()
+        content.content = info.title
+        RCIM.shared()?.sendMessage(.ConversationType_APPSERVICE, targetId: HTAppPublicServiceCommonManager.shared.targetId, content: content, pushContent: nil, pushData: nil, success: { (code) in
+        }, error: { (code, messageID) in
+        })
     }
 
 }
+
+class PSShowTransmitView: UIView {
+
+    let joinButton = UIButton().HTSon {
+        $0.setTitle("参加", for: .normal)
+        $0.setTitleColor(HTTheme.btnColor, for: .normal)
+        $0.tag = 0
+        $0.titleLabel?.font = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(16))
+    }
+    let transmitButton = UIButton().HTSon {
+        $0.setTitle("转发", for: .normal)
+        $0.setTitleColor(HTTheme.btnColor, for: .normal)
+        $0.tag = 1
+        $0.titleLabel?.font = UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(16))
+    }
+    let vLine: UIView = UIView().HTSon {
+        $0.backgroundColor = HTTheme.lineColor
+    }
+
+    let hLine: UIView = UIView().HTSon {
+        $0.backgroundColor = HTTheme.lineColor
+    }
+
+    var meetingId: Int = 0
+    var jumpUrl: String = ""
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isUserInteractionEnabled = true
+        configSubViews()
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configSubViews() {
+        addSubview(joinButton)
+        addSubview(transmitButton)
+        addSubview(vLine)
+        addSubview(hLine)
+
+        vLine.snp_makeConstraints { (make) in
+            make.top.bottom.equalToSuperview()
+            make.centerX.equalToSuperview().offset(HTAdapter.suitW(6))
+            make.width.equalTo(1.0 / UIScreen.main.scale)
+        }
+        hLine.snp_makeConstraints { (make) in
+            make.left.equalToSuperview().offset(HTAdapter.suitW(6))
+            make.right.top.equalToSuperview()
+            make.height.equalTo(1.0 / UIScreen.main.scale)
+        }
+        transmitButton.snp.makeConstraints { (maker) in
+            maker.left.equalTo(hLine)
+            maker.top.bottom.equalToSuperview()
+            maker.right.equalTo(vLine.snp_left)
+        }
+        joinButton.snp.makeConstraints { (maker) in
+            maker.top.bottom.right.equalToSuperview()
+            maker.left.equalTo(vLine.snp_right)
+        }
+
+        joinButton.addTarget(self, action: #selector(clickBtnAction(_:)), for: .touchUpInside)
+        transmitButton.addTarget(self, action: #selector(clickBtnAction(_:)), for: .touchUpInside)
+    }
+
+    @objc func clickBtnAction(_ sender: UIButton) {
+        let tag: Int = sender.tag
+        let shared = HTAppPublicServiceCellManager.shared
+        if let handle = shared.infoMessageButtonClickAction {
+            handle(tag, meetingId)
+        }
+    }
+}
+

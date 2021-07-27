@@ -8,15 +8,10 @@
 
 import UIKit
 //import CryptoSwift
-
-let RE_EXP_PHONENUM  = "^1\\d{10}$"
-let RE_EXP_SPECIALCHARACTER = "[\\u4e00-\\u9fa5|a-z|A-Z|'|&|!|℃|·|\\d|\\-|_|\\s]*"
-let RE_EXP_EAMIL = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-
 public extension String {
     
     //字符串为空检查
-    var isEmptyString: Bool {
+    var HTisEmptyString: Bool {
         get {
             if self == "<null>" || self == "null" || self == "(null)"{
                 return true
@@ -26,7 +21,7 @@ public extension String {
     }
     
     //NSRange 转 range
-    func toRange(_ range: NSRange) -> Range<String.Index>? {
+    func HTtoRange(_ range: NSRange) -> Range<String.Index>? {
         guard let from16 = utf16.index(utf16.startIndex, offsetBy: range.location, limitedBy: utf16.endIndex) else { return nil }
         guard let to16 = utf16.index(from16, offsetBy: range.length, limitedBy: utf16.endIndex) else { return nil }
         guard let from = String.Index(from16, within: self) else { return nil }
@@ -98,26 +93,8 @@ public extension String {
 
 extension String {
     //返回字数
-    var count: Int {
+    var HTcount: Int {
         let string_NS = self as NSString
         return string_NS.length
-    }
-    
-    //使用正则表达式替换
-    func pregReplace(pattern: String, with: String,
-                     options: NSRegularExpression.Options = []) -> String {
-        let regex = try! NSRegularExpression(pattern: pattern, options: options)
-        return regex.stringByReplacingMatches(in: self, options: [],
-                                              range: NSMakeRange(0, self.count),
-                                              withTemplate: with)
-    }
-    
-    func removeSpace() ->String {
-        var tempArray = self.components(separatedBy: .whitespaces)
-        tempArray = tempArray.filter({ (str) -> Bool in
-            return str != ""
-        })
-        let temp = tempArray.joined(separator: "")
-        return temp
     }
 }

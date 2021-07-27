@@ -11,18 +11,6 @@ import RongIMKit
 import SwiftyJSON
 import MessageUI
 
-public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
-public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
-public let messageContentWidth: CGFloat = kHTScreenWidth - (320.0 * 0.363)
-public let p_titleContentWidth: Double = Double(messageContentWidth - HTAdapter.suitW(34))
-
-public func viewLabelContentWidth(_ width: Double = 0.0) -> Double {
-    if width == 0.0 {
-        return p_titleContentWidth
-    }
-    return width
-}
-
 class PSMessageCell: RCMessageCell {
     override class func size(for model: RCMessageModel!, withCollectionViewWidth collectionViewWidth: CGFloat, referenceExtraHeight extraHeight: CGFloat) -> CGSize {
         let contentModel: PSMessageModel = contentMessageModel(model.content)
@@ -123,8 +111,7 @@ class PSMessageCell: RCMessageCell {
     }
 
     let showDetailView: PSShowDetailView = PSShowDetailView()
-//    let showTransmitView: PSShowTransmitView = PSShowTransmitView()
-    let showTransmitView: UIView = UIView()
+    let showTransmitView: PSShowTransmitView = PSShowTransmitView()
     let showQuestionView: PSQuestionView = PSQuestionView().HTSon {
         $0.isHidden = true
     }
@@ -354,8 +341,8 @@ extension PSMessageCell {
         showDetailView.jumpUrl = messageContentModel.url
         showDetailView.type = messageContentModel.type
         showDetailView.moreTitle = messageContentModel.endTitle
-//        showTransmitView.jumpUrl = messageContentModel.url
-//        showTransmitView.meetingId = messageContentModel.id
+        showTransmitView.jumpUrl = messageContentModel.url
+        showTransmitView.meetingId = messageContentModel.id
         showQuestionView.dataSource = messageContentModel.template
         if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
             bkView.image = fromImage

@@ -35,28 +35,36 @@ TODO: Add long description of the pod here.
   s.resource_bundles = {
      'HTAppPublic' => ['HTAppPublic/Assets/*.png']
   }
-
   # s.public_header_files = 'Pod/Classes/**/*.h'
 # s.dependency 'Alamofire'
  s.dependency 'SnapKit'
  s.dependency 'SwiftyJSON', '4.1.0'
  s.dependency 'MBProgressHUD', '~> 1.0.0'
- s.dependency 'SVProgressHUD'
+# s.dependency 'SVProgressHUD'
  s.dependency 'RongCloudIM/IMLib', '~> 2.10.4'
  s.dependency 'RongCloudIM/IMKit', '~> 2.10.4'
  s.dependency 'Masonry', '1.1.0'
  s.dependency 'YYText'
  s.dependency 'YYWebImage'
  
-# s.static_framework = true
+ s.static_framework = true
  
 # s.frameworks = 'QuartzCore', 'OpenGLES', 'CoreGraphics', 'CoreTelephony','AVFoundation','AVKit','AudioToolbox','CFNetwork','CoreFoundation','CoreMedia','CoreVideo','Foundation','MediaPlayer','Photos','Security','VideoToolbox','UIKit','AssetsLibrary','CoreAudio','ImageIO','SystemConfiguration','SafariServices'
 
+ s.static_framework  =  true
  # 第三方用到的系统静态文件（前面的lib要去掉，否则会报错）
- s.libraries = 'c++','sqlite3','bz2','icucore','c++abi','stdc++','xml2','z','opencore-amrwb','opencore-amrnb'
-# s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lObjC' }
+# s.libraries = 'c++','sqlite3','bz2','icucore','c++abi','stdc++','xml2','z','opencore-amrwb','opencore-amrnb'
 # s.vendored_frameworks = 'HTAppPublic/Classes/*.framework'
- s.vendored_libraries = 'RongCloudIM/Classes/*.a'
+# s.vendored_libraries = 'RongCloudIM/Classes/*.a'
+ s.public_header_files = 'Pod/Classes/*.{h,swift}'
 
-# s.prefix_header_contents = '#import <RongIMKit/RongIMKit.h>'
+s.subspec 'HTAppPublicVendor' do |sss|
+#  sss.source_files            = ''
+#  sss.resource                = 'RongCloudIM/UMSocialSDKPromptResources.bundle'
+  sss.ios.vendored_frameworks = 'RongCloudIM/RongCloudIM/RongIMKit.framework','RongCloudIM/RongCloudIM/RongIMLib.framework'
+  sss.ios.vendored_library    = 'RongCloudIM/RongCloudIM/libopencore-amrnb.a','RongCloudIM/RongCloudIM/libopencore-amrwb.a','RongCloudIM/RongCloudIM/libvo-amrwbenc.a'
+#  sss.ios.public_header_files   = 'SocialLibraries/**/*.{h}'
+  sss.ios.library  = 'sqlite3'
+end
+
 end

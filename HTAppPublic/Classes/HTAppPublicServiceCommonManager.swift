@@ -12,12 +12,12 @@ import RongIMLib
 import AudioToolbox
 
 open class HTAppPublicServiceCommonManager: NSObject {
-    static let shared: HTAppPublicServiceCommonManager = HTAppPublicServiceCommonManager()
+    public static let shared: HTAppPublicServiceCommonManager = HTAppPublicServiceCommonManager()
     
-    var targetName: String = ""
-    var targetId: String = ""
-    var userId: String = ""
-    var userName: String = ""
+    public var targetName: String = ""
+    public var targetId: String = ""
+    public var userId: String = ""
+    public var userName: String = ""
     private var targetIdList: [String] = []
 
     public func addTargetId(_ id: String) {
@@ -42,13 +42,13 @@ open class HTAppPublicServiceCommonManager: NSObject {
         RCIMClient.shared()?.logout()
     }
     
-    var currentUserInfo: RCUserInfo? {
+    public var currentUserInfo: RCUserInfo? {
         get {
             return RCIM.shared()?.currentUserInfo
         }
     }
     
-    var rcimIsConnect: Bool {
+    public var rcimIsConnect: Bool {
         get {
             if RCIM.shared()?.getConnectionStatus() == RCConnectionStatus.ConnectionStatus_NETWORK_UNAVAILABLE || RCIM.shared()?.getConnectionStatus() == RCConnectionStatus.ConnectionStatus_Unconnected {
                 return false
@@ -57,7 +57,7 @@ open class HTAppPublicServiceCommonManager: NSObject {
         }
     }
     
-    func configureRCIM(rongYunKey: String, groupDataSource: NSObject?, userInfoDataSource: HTAPServiceDataSource) {
+    public func configureRCIM(rongYunKey: String, groupDataSource: NSObject?, userInfoDataSource: HTAPServiceDataSource) {
         RCIM.shared().initWithAppKey(rongYunKey)
         
         // IMKit连接状态的监听器
@@ -138,7 +138,7 @@ extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMRec
         return count
     }
     
-    func connetIMServer() {
+    public func connetIMServer() {
         HTAPIMUserManager.shared.getCurrentUserToken({ (imToken) in
             HTAPIMUserManager.shared.RCIMConnect(imToken, success: { (userID) in
                 print("userID: \(userID).........")

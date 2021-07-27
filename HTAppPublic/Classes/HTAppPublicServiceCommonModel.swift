@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-enum PublicServiceModelType: Int {
+public enum PublicServiceModelType: Int {
     case Unknown = 0 // 未知
     case Normal = 1 // 普通文本
     case VideoMeeting = 2 // 视频会议
@@ -26,15 +26,15 @@ enum PublicServiceModelType: Int {
 }
 
 //MARK: - 信息卡片模型
-class PSInfoObject: NSObject {
-    var title: String = ""
-    var value: String = ""
+public class PSInfoObject: NSObject {
+    public var title: String = ""
+    public var value: String = ""
     
     init(_ json: JSON) {
         title = json["templateKey"].stringValue
         value = json["templateValue"].stringValue
     }
-    override init() {
+    public override init() {
     }
 }
 
@@ -64,14 +64,14 @@ struct HTAppPublicButtonData {
     }
 }
 
-open class PSMessageModel: NSObject {
-    var template: [PSInfoObject] = []
-    var type: PublicServiceModelType = .Unknown
-    var head: String = ""
-    var title: String = ""
-    var url: String = ""
-    var id: Int = 0
-    var endTitle: String = ""
+public class PSMessageModel: NSObject {
+    public var template: [PSInfoObject] = []
+    public var type: PublicServiceModelType = .Unknown
+    public var head: String = ""
+    public var title: String = ""
+    public var url: String = ""
+    public var id: Int = 0
+    public var endTitle: String = ""
     
     var version: String = ""
     var firstHead: String = ""
@@ -79,11 +79,17 @@ open class PSMessageModel: NSObject {
     var form: HTAppPublicCommonData?
     var buttonList: [HTAppPublicButtonData] = []
     
-    override init() {
+    public var hyperLinkContent: String {
+        get {
+            return getHyperLinkTitle()
+        }
+    }
+
+    public override init() {
         //
     }
     
-    init(_ json: JSON) {
+    public init(_ json: JSON) {
         version = json["version"].stringValue
         if version == "v2" { //标识版本，方便移动端兼容。固定传值v2，代表使用新的ESB对接方式
             firstHead = json["firstHead"].stringValue
@@ -245,7 +251,7 @@ open class PSMessageModel: NSObject {
         return ""
     }
 
-    func modelHeight(_ width: Double = 0.0) -> CGFloat {
+    public func modelHeight(_ width: Double = 0.0) -> CGFloat {
         if version != "" {
             return templateInfoDetailHeight(width)
         }

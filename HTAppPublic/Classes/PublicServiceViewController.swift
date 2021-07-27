@@ -11,12 +11,12 @@ import RongIMKit
 //import SwiftyJSON
 import Photos
 
-class PublicServiceViewController: RCPublicServiceChatViewController {
+public class PublicServiceViewController: RCPublicServiceChatViewController {
 
     private let navi = HTNaviBarView().HTSon {
         $0.configureLeftButton(image: UIImage(named: "Back"))
     }
-    weak var delegate: HTAppPublicServiceDelegate? = nil
+    public weak var delegate: HTAppPublicServiceDelegate? = nil
     weak var userInfoDataSource: HTAPServiceDataSource? = nil {
         didSet {
             HTAPIMUserManager.shared.userInfoDataSource = userInfoDataSource
@@ -59,7 +59,7 @@ class PublicServiceViewController: RCPublicServiceChatViewController {
     public var headerView: UIView = UIView().HTSon {
         // 头部额外增加的view
     }
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         register(PSMessageCell.self, forMessageClass: RCTextMessage.classForCoder())
@@ -67,13 +67,13 @@ class PublicServiceViewController: RCPublicServiceChatViewController {
         configureChatSetting()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshUserInfoOrGroupInfo()
         configNotice()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.scrollToBottom(animated: true)
     }
@@ -157,7 +157,7 @@ class PublicServiceViewController: RCPublicServiceChatViewController {
         }
     }
     
-    override func willSendMessage(_ messageContent: RCMessageContent!) -> RCMessageContent! {
+    public override func willSendMessage(_ messageContent: RCMessageContent!) -> RCMessageContent! {
         //可以在这里修改将要发送的消息
         return messageContent
     }
@@ -195,7 +195,7 @@ extension PublicServiceViewController {
         }
     }
         
-    override func onPublicServiceMenuItemSelected(_ selectedMenuItem: RCPublicServiceMenuItem!) {
+    public override func onPublicServiceMenuItemSelected(_ selectedMenuItem: RCPublicServiceMenuItem!) {
         if let del = delegate, let menuId = selectedMenuItem.id.HTtoInt() {
             del.appPublicServiceMenuDidSeleted?(menuId)
         }
@@ -211,7 +211,7 @@ extension PublicServiceViewController {
 //MARK: - 融云接口实现
 extension PublicServiceViewController {
     
-    override func saveNewPhotoToLocalSystem(afterSendingSuccess newImage: UIImage!) {
+    public override func saveNewPhotoToLocalSystem(afterSendingSuccess newImage: UIImage!) {
         DispatchQueue.global().async {
             PHPhotoLibrary.shared().performChanges({
                 if newImage != nil {
@@ -223,7 +223,7 @@ extension PublicServiceViewController {
         }
     }
 
-    override func presentImagePreviewController(_ model: RCMessageModel!) {
+    public override func presentImagePreviewController(_ model: RCMessageModel!) {
         if let del = delegate {
             if let function = del.presentImagePreviewController {
                 function(model)
@@ -233,7 +233,7 @@ extension PublicServiceViewController {
         super.presentImagePreviewController(model)
     }
     
-    override func willDisplayMessageCell(_ cell: RCMessageBaseCell!, at indexPath: IndexPath!) {
+    public override func willDisplayMessageCell(_ cell: RCMessageBaseCell!, at indexPath: IndexPath!) {
         super.willDisplayMessageCell(cell, at: indexPath)
         if cell.model.content.isKind(of: RCRecallNotificationMessage.classForCoder()) {
             if cell.isKind(of: RCTipMessageCell.classForCoder()) {
@@ -269,11 +269,11 @@ extension PublicServiceViewController {
         }
     }
     
-    override func didTapCellPortrait(_ userId: String!) {
+    public override func didTapCellPortrait(_ userId: String!) {
         super.didTapCellPortrait(userId)
     }
         
-    override func getLongTouchMessageCellMenuList(_ model: RCMessageModel!) -> [UIMenuItem]! {
+    public override func getLongTouchMessageCellMenuList(_ model: RCMessageModel!) -> [UIMenuItem]! {
         if var menuList = super.getLongTouchMessageCellMenuList(model) {
             guard menuList.count > 0 else {return menuList}
             callBackMsgModel = model
@@ -293,19 +293,19 @@ extension PublicServiceViewController {
         }
     }
     
-    override func didTapMessageCell(_ model: RCMessageModel!) {
+    public override func didTapMessageCell(_ model: RCMessageModel!) {
         super.didTapMessageCell(model)
     }
     
-    override func didTapUrl(inPublicServiceMessageCell url: String!, model: RCMessageModel!) {
+    public override func didTapUrl(inPublicServiceMessageCell url: String!, model: RCMessageModel!) {
         goToWebView(url)
     }
     
-    override func didLongPressCellPortrait(_ userId: String!) {
+    public override func didLongPressCellPortrait(_ userId: String!) {
         super.didLongPressCellPortrait(userId)
     }
             
-    override func pluginBoardView(_ pluginBoardView: RCPluginBoardView!, clickedItemWithTag tag: Int) {
+    public override func pluginBoardView(_ pluginBoardView: RCPluginBoardView!, clickedItemWithTag tag: Int) {
         if let del = delegate {
             let result: ObjCBool = del.pluginBoardView?(tag) ?? false
             if result.boolValue == true {
@@ -347,14 +347,14 @@ extension PublicServiceViewController {
             }
         }
     }
-    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(delAction) {
             return true
         }
         return super.canPerformAction(action, withSender: sender)
     }
     
-    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+    public override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if let del = delegate {
             del.scrollViewWillBeginDragging?()
         }

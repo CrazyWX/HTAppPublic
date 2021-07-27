@@ -14,6 +14,18 @@ public let kHTScreenSize   = kHTScreenBounds.size
 public let kHTScreenWidth  = kHTScreenSize.width
 public let kHTScreenHeight = kHTScreenSize.height
 
+public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
+public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
+public let messageContentWidth: CGFloat = kHTScreenWidth - (320.0 * 0.363)
+public let p_titleContentWidth: Double = Double(messageContentWidth - HTAdapter.suitW(34))
+
+public func viewLabelContentWidth(_ width: Double = 0.0) -> Double {
+    if width == 0.0 {
+        return p_titleContentWidth
+    }
+    return width
+}
+
 struct HTAdapter {
     
     static func configureButtonStyle(_ button:UIButton, title: String, titleFont: UIFont? = nil, titleColor: UIColor? = nil, bgColor: UIColor? = nil,borderColor:UIColor? = nil, target:Selector? = nil, targetItem: Any? = nil) {

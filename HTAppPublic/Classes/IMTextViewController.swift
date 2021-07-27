@@ -8,9 +8,9 @@
 
 import UIKit
 
-class IMTextViewController: UIViewController {
+public class IMTextViewController: UIViewController {
 
-    var text = "" {
+    public var text = "" {
         didSet {
             textView.text = text
         }
@@ -31,7 +31,7 @@ class IMTextViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         configureSubview()
     }

@@ -9,7 +9,7 @@
 import UIKit
 import RongIMKit
 
-@objc protocol HTAppPublicServiceDelegate {
+@objc public protocol HTAppPublicServiceDelegate {
     @objc optional func naviBarRightButtonTitle(_ targetId: String) -> String?
     @objc optional func naviBarRightButtonImage(_ targetId: String) -> UIImage?
     @objc optional func naviBarRightButtonAction()
@@ -32,21 +32,23 @@ import RongIMKit
     @objc optional func presentImagePreviewController(_ model: RCMessageModel!)
 }
 
-class HTAppPublicServiceCellManager: NSObject {
-    static var shared: HTAppPublicServiceCellManager = HTAppPublicServiceCellManager()
+public class HTAppPublicServiceCellManager: NSObject {
+    public static let shared: HTAppPublicServiceCellManager = HTAppPublicServiceCellManager()
     // 纯文本超链接 (非必实现)
-    var doOnlyTextHyperLinkActionBlock: ((URL)->())?
+    public var doOnlyTextHyperLinkActionBlock: ((URL)->())?
     // 文本里包含的超链接
-    var attributedLabelDidSelectedLink: ((URL)->())?
+    public var attributedLabelDidSelectedLink: ((URL)->())?
     // 查看详情卡片点击查看更多事件 (非必实现)
-    var showMoreActionBlock: ((PublicServiceModelType, String)->())?
+    public var showMoreActionBlock: ((PublicServiceModelType, String)->())?
     // 点击了跳转 （链接类型Int, 链接地址String, 名字String, 后台授权密钥String）
-    var hrefContentClickActionBlock: ((Int, String, String, String)->())?
+    public var hrefContentClickActionBlock: ((Int, String, String, String)->())?
     // 分享到微信
-    var shareToWechatBlock:((String, String, UIImage?, URL?)->())?
+    public var shareToWechatBlock:((String, String, UIImage?, URL?)->())?
+    // 旧版本：两个按钮情况
+    public var infoMessageButtonClickAction: ((Int,Int)->())?
 }
 
-@objc protocol HTAPServiceDataSource {
+@objc public protocol HTAPServiceDataSource {
     @objc optional func getUserInfo(withUserId userId: String!, completion: ((RCUserInfo?) -> Void)!)
     /// 获取IM 的token
     @objc optional func getCurrentUserToken(_ complete: @escaping (_ imToken:String) -> Void, failure: @escaping (_ code:Int, _ msg:String) -> Void)
