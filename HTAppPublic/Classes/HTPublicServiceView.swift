@@ -11,12 +11,12 @@ import RongIMKit
 import SwiftyJSON
 import MessageUI
 
-let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
-let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
-let messageContentWidth: CGFloat = kHTScreenWidth - (320.0 * 0.363)
-let p_titleContentWidth: Double = Double(messageContentWidth - HTAdapter.suitW(34))
+public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
+public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
+public let messageContentWidth: CGFloat = kHTScreenWidth - (320.0 * 0.363)
+public let p_titleContentWidth: Double = Double(messageContentWidth - HTAdapter.suitW(34))
 
-func viewLabelContentWidth(_ width: Double = 0.0) -> Double {
+public func viewLabelContentWidth(_ width: Double = 0.0) -> Double {
     if width == 0.0 {
         return p_titleContentWidth
     }

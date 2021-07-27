@@ -64,7 +64,7 @@ struct HTAppPublicButtonData {
     }
 }
 
-class PSMessageModel: NSObject {
+open class PSMessageModel: NSObject {
     var template: [PSInfoObject] = []
     var type: PublicServiceModelType = .Unknown
     var head: String = ""

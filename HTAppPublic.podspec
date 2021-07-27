@@ -30,16 +30,14 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'HTAppPublic/Classes/**/*'
+  s.source_files = 'HTAppPublic/Classes/**/*.{h,m,swift}'
   
   s.resource_bundles = {
      'HTAppPublic' => ['HTAppPublic/Assets/*.png']
   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-# s.dependency 'AFNetworking', '~> 2.3'
- s.dependency 'Alamofire'
+# s.dependency 'Alamofire'
  s.dependency 'SnapKit'
  s.dependency 'SwiftyJSON', '4.1.0'
  s.dependency 'MBProgressHUD', '~> 1.0.0'
@@ -49,6 +47,16 @@ TODO: Add long description of the pod here.
  s.dependency 'Masonry', '1.1.0'
  s.dependency 'YYText'
  s.dependency 'YYWebImage'
+ 
+# s.static_framework = true
+ 
+# s.frameworks = 'QuartzCore', 'OpenGLES', 'CoreGraphics', 'CoreTelephony','AVFoundation','AVKit','AudioToolbox','CFNetwork','CoreFoundation','CoreMedia','CoreVideo','Foundation','MediaPlayer','Photos','Security','VideoToolbox','UIKit','AssetsLibrary','CoreAudio','ImageIO','SystemConfiguration','SafariServices'
 
- s.prefix_header_contents = '#import <RongIMKit/RongIMKit.h>','#import "RCDataBaseManager.h"'
+ # 第三方用到的系统静态文件（前面的lib要去掉，否则会报错）
+ s.libraries = 'c++','sqlite3','bz2','icucore','c++abi','stdc++','xml2','z','opencore-amrwb','opencore-amrnb'
+# s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-lObjC' }
+# s.vendored_frameworks = 'HTAppPublic/Classes/*.framework'
+ s.vendored_libraries = 'RongCloudIM/Classes/*.a'
+
+# s.prefix_header_contents = '#import <RongIMKit/RongIMKit.h>'
 end

@@ -11,7 +11,7 @@ import RongIMKit
 import RongIMLib
 import AudioToolbox
 
-class HTAppPublicServiceCommonManager: NSObject {
+open class HTAppPublicServiceCommonManager: NSObject {
     static let shared: HTAppPublicServiceCommonManager = HTAppPublicServiceCommonManager()
     
     var targetName: String = ""
@@ -34,13 +34,11 @@ class HTAppPublicServiceCommonManager: NSObject {
         userName = ""
     }
 
-    static func clearCacheAndToken() {
+    public static func clearCacheAndToken() {
         HTAppPublicServiceCommonManager.shared.targetIdList.forEach { (id) in
             RCIMClient.shared()?.clearMessagesUnreadStatus(.ConversationType_APPSERVICE, targetId: id)
         }
         HTAppPublicServiceCommonManager.shared.clear()
-        RCDataBaseManager.shareInstance()?.clearFriendsData()
-        RCDataBaseManager.shareInstance()?.closeDBForDisconnect()
         RCIMClient.shared()?.logout()
     }
     
@@ -158,7 +156,7 @@ extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMRec
         }
     }
     
-    func onRCIMConnectionStatusChanged(_ status: RCConnectionStatus) {
+    public func onRCIMConnectionStatusChanged(_ status: RCConnectionStatus) {
         if status == RCConnectionStatus.ConnectionStatus_TOKEN_INCORRECT {
             connetIMServer()
         }
@@ -177,7 +175,7 @@ extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMRec
         }
     }
     
-    func onRCIMReceive(_ message: RCMessage!, left: Int32) {
+    public func onRCIMReceive(_ message: RCMessage!, left: Int32) {
         DispatchQueue.main.async {
             let applicationState: UIApplication.State = UIApplication.shared.applicationState
             if applicationState == .active {/// "前台"

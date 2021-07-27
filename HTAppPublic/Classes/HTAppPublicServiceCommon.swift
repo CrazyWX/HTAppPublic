@@ -9,10 +9,10 @@
 import UIKit
 import MBProgressHUD
 
-let kHTScreenBounds = UIScreen.main.bounds
-let kHTScreenSize   = kHTScreenBounds.size
-let kHTScreenWidth  = kHTScreenSize.width
-let kHTScreenHeight = kHTScreenSize.height
+public let kHTScreenBounds = UIScreen.main.bounds
+public let kHTScreenSize   = kHTScreenBounds.size
+public let kHTScreenWidth  = kHTScreenSize.width
+public let kHTScreenHeight = kHTScreenSize.height
 
 struct HTAdapter {
     
