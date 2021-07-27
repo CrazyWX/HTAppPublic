@@ -51,10 +51,10 @@
     ]
   },
   "static_framework": true,
+  "public_header_files": "Pod/Classes/*.{h,swift}",
   "subspecs": [
     {
       "name": "HTAppPublicVendor",
-      "source_files": "",
       "ios": {
         "vendored_frameworks": [
           "RongCloudIM/RongCloudIM/RongIMKit.framework",
