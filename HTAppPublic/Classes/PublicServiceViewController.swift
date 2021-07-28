@@ -14,7 +14,7 @@ import Photos
 public class PublicServiceViewController: RCPublicServiceChatViewController {
 
     private let navi = HTNaviBarView().HTSon {
-        $0.configureLeftButton(image: UIImage(named: "Back"))
+        $0.configureLeftButton(image: UIImage(named: "HTAppPublic.bundle/Rectangle "))
     }
     public weak var delegate: HTAppPublicServiceDelegate? = nil
     weak var userInfoDataSource: HTAPServiceDataSource? = nil {

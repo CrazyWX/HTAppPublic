@@ -143,7 +143,11 @@ extension HTAppPublicServiceCommonManager: RCIMConnectionStatusDelegate, RCIMRec
             HTAPIMUserManager.shared.RCIMConnect(imToken, success: { (userID) in
                 print("userID: \(userID).........")
                 HTAPIMUserManager.shared.getUserInfo(withUserId: userID, completion: { (userInfo) in
-
+                    if let rcUser = userInfo {
+                        RCIM.shared()?.refreshUserInfoCache(rcUser, withUserId: rcUser.userId)
+                        RCIM.shared()?.currentUserInfo = rcUser
+//                        RCDataBaseManager.shareInstance()?.insertUser(toDB: rcUser)
+                    }
                 })
             }, tokenInConnect: {
                 print("token过期或者不正确,")

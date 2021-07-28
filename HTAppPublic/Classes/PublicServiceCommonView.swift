@@ -17,7 +17,7 @@ class PSShowDetailView: UIView {
         HTAdapter.configureLabelStyle($0, text: "查看更多", font: UIFont.HTAppRegularFont(with: HTAdapter.adjustFont(16)), textColor: HTTheme.btnColor, aligment: .left)
     }
     let assistanceImageView = UIImageView().HTSon {
-        $0.image = UIImage(named: "Assistance")
+        $0.image = UIImage(named: "HTAppPublic.bundle/nextpage")
     }
     let hLine: UIView = UIView().HTSon {
         $0.backgroundColor = HTTheme.lineColor
@@ -69,7 +69,7 @@ class PSShowDetailView: UIView {
         assistanceImageView.snp.makeConstraints { (maker) in
             maker.right.equalToSuperview().offset(HTAdapter.suitW(-17))
             maker.centerY.equalToSuperview()
-            maker.size.equalTo(UIImage(named: "Assistance")!.size)
+            maker.size.equalTo(UIImage(named: "HTAppPublic.bundle/nextpage")!.size)
         }
         hLine.snp_makeConstraints { (make) in
             make.left.equalToSuperview().offset(HTAdapter.suitW(6))
@@ -274,7 +274,7 @@ class PSQuestionView: UIView {
                 }
                 text.yy_setTextHighlight(hi, range: phoneRange)
             } else {
-                let image: UIImage = UIImage(named: "appservice_icon_finger") ?? UIImage()
+                let image: UIImage = UIImage(named: "HTAppPublic.bundle/appservice_icon_finger") ?? UIImage()
                 let attachText: NSMutableAttributedString = NSMutableAttributedString.yy_attachmentString(withEmojiImage: image, fontSize: descriptionFont.pointSize) ?? NSMutableAttributedString(string: "")
                 text.append(attachText)
                 let hi = YYTextHighlight()

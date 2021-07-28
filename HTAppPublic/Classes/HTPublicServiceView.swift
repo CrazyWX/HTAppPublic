@@ -117,7 +117,7 @@ class PSMessageCell: RCMessageCell {
     }
 
     lazy var fromImage: UIImage = {
-        let img = UIImage(named: "chat_from_bg_normal")
+        let img = UIImage(named: "HTAppPublic.bundle/chat_from_bg_normal")
         let width = img!.size.width / 2.0
         let height = img!.size.height / 2.0 + 10
         let newImage = img!.resizableImage(withCapInsets: UIEdgeInsets.init(top: height, left: width, bottom: img!.size.height - height, right: width), resizingMode: .stretch)
@@ -125,7 +125,7 @@ class PSMessageCell: RCMessageCell {
     }()
 
     lazy var toImage: UIImage = {
-        let img = UIImage(named: "chat_to_bg_normal")
+        let img = UIImage(named: "HTAppPublic.bundle/chat_to_bg_normal")
         let width = img!.size.width / 2.0
         let height = img!.size.height / 2.0 + 10
         let newImage = img!.resizableImage(withCapInsets: UIEdgeInsets.init(top: height, left: width, bottom: img!.size.height - height, right: width), resizingMode: .stretch)
@@ -499,7 +499,25 @@ extension PSMessageCell {
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
                             if let url: URL = link?.result.url {
-                                weakSelf.doOnlyTextHyperLinkAction(url)
+                                var urlComponents: [String: AnyObject]?
+                                if #available(iOS 10.2, *) {
+                                    urlComponents = url.absoluteString.HTurlParameters
+                                } else {
+                                    // Fallback on earlier versions
+                                }
+                                if let urlParam = urlComponents {
+                                    let type: Int = (urlParam["hrefType"] as? String ?? "0").HTtoInt() ?? 0
+                                    let hyperLink: String = urlParam["url"] as? String ?? ""
+                                    let hyperName: String = urlParam["showText"] as? String ?? ""
+                                    let secret: String = urlParam["secret"] as? String ?? ""
+
+                                    let shared: HTAppPublicServiceCellManager = HTAppPublicServiceCellManager.shared
+                                    if let handle = shared.hrefContentClickActionBlock {
+                                        handle(type, hyperLink, hyperName, secret)
+                                    }
+                                } else {
+                                    weakSelf.doOnlyTextHyperLinkAction(url)
+                                }
                             }
                         }
                     })

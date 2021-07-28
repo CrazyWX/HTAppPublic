@@ -187,7 +187,7 @@ func HTUIColorFromRGB(rgbValue: UInt, alpha: CGFloat? = nil) -> UIColor {
         alpha: CGFloat(alpha ?? 1.0)
     )
 }
- func HTAPCurrentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+public func HTAPCurrentViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
     if let nav = base as? UINavigationController {
         return HTAPCurrentViewController(base: nav.visibleViewController)
     }
