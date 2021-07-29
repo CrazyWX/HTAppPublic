@@ -10,6 +10,7 @@ import UIKit
 import SwiftyJSON
 import HTAppPublic
 import RongIMKit
+import Alamofire
 
 public class HTAPPPublicServiceManager: NSObject, HTAppPublicServiceDelegate, HTAPServiceDataSource {
     static var shared: HTAPPPublicServiceManager = HTAPPPublicServiceManager()
@@ -40,50 +41,11 @@ public class HTAPPPublicServiceManager: NSObject, HTAppPublicServiceDelegate, HT
                 }*/
             } else if hrefType == 4 { // esb接口
                 print("-----> 我是esb接口：\(hyperLink)")
-                /*/// 以下是调用的方法和规则：
+                /// 以下是调用的方法和规则：
                 let userId: String = HTAppPublicServiceCommonManager.shared.userId
                 let officialAccountId: String = HTAppPublicServiceCommonManager.shared.targetId
-                //时间戳
-                let timestamp: String = "\(Int(Date().timeIntervalSince1970 * 1000))"
-                //8位随机数
-                let random: String = "\(Int(arc4random_uniform(89999999) + 10000000))"
                 let secret: String = secret
-                //md5方式生成，md5(userId+officialAccountId+timestamp+random+secret)
-                var token: String = userId + officialAccountId
-                token = token + timestamp
-                token = token + random
-                token = token + secret
-                token = token.md5()
-                let headers: HTTPHeaders = [
-                    "userId": userId,
-                    "officialAccountId": officialAccountId,
-                    "timestamp":timestamp,
-                    "random":random,
-                    "token":token
-                ]
-                Alamofire.request(hyperLink, method: .get, parameters: [:], encoding: URLEncoding.default, headers: headers).response { response in
-                    guard  response.error == nil else {
-                        if let error = response.error as NSError? {
-                            if error.code == NSURLErrorNotConnectedToInternet {
-                                currentVc.failure(code: -1, msg: "网络连接失败，请稍后再试")
-                            }else if error.code == NSURLErrorTimedOut {
-                                currentVc.failure(code: -1, msg: "网络超时")
-                            }else {
-                                currentVc.failure(code: -1, msg: "请求失败，请稍后再试")
-                            }
-                        }
-                        return
-                    }
-                    
-                    if let data = response.data , let json = try? JSON(data: data){
-                        if (json["code"].intValue == 0){
-                        }else{
-                            currentVc.failure(code: json["code"].intValue, msg: json["msg"].stringValue)
-                        }
-                    }else{
-                        currentVc.failure(code: -1, msg: "数据解析失败")
-                    }
-                }*/
+                HTAppPublicNetwork.defaultESBMethod(hyperLink: hyperLink, userId: userId, officialAccountId: officialAccountId, secret: secret)
             }
         }
         shared.attributedLabelDidSelectedLink = { (url) in
@@ -128,6 +90,7 @@ public class HTAPPPublicServiceManager: NSObject, HTAppPublicServiceDelegate, HT
             /// 当前登录账号的id和name
             HTAppPublicServiceCommonManager.shared.userId = "49112"
             HTAppPublicServiceCommonManager.shared.userName = "王霞"
+            HTAppPublicServiceCommonManager.shared.testService = true
         }
     }
     // MARK: - 导航栏右侧按钮

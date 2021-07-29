@@ -1,10 +1,14 @@
 PODS:
+  - Alamofire (4.9.1)
+  - CryptoSwift (1.4.1)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
   - HTAppPublic (0.1.0):
+    - Alamofire
+    - CryptoSwift
     - HTAppPublic/HTAppPublicVendor (= 0.1.0)
     - Masonry (= 1.1.0)
     - MBProgressHUD (~> 1.0.0)
@@ -15,6 +19,8 @@ PODS:
     - YYText
     - YYWebImage
   - HTAppPublic/HTAppPublicVendor (0.1.0):
+    - Alamofire
+    - CryptoSwift
     - Masonry (= 1.1.0)
     - MBProgressHUD (~> 1.0.0)
     - RongCloudIM/IMKit (~> 2.10.4)
@@ -45,6 +51,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
+    - CryptoSwift
     - FBSnapshotTestCase
     - Masonry
     - MBProgressHUD
@@ -61,8 +69,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  CryptoSwift: 0bc800a7e6a24c4fc9ebeab97d44b0d5f73a78bd
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  HTAppPublic: fcfff0d1562091f6db277701fbc0478b0b500cec
+  HTAppPublic: 3ebfce6a7363bc36723c79efb3117ee9c70f0199
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   RongCloudIM: b1768dcb3af90d00ce621f7de4f787285435fbe3

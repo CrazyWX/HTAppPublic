@@ -36,7 +36,7 @@ TODO: Add long description of the pod here.
      'HTAppPublic' => ['HTAppPublic/Assets/*.png']
   }
   # s.public_header_files = 'Pod/Classes/**/*.h'
-# s.dependency 'Alamofire'
+ s.dependency 'Alamofire'
  s.dependency 'SnapKit'
  s.dependency 'SwiftyJSON', '4.1.0'
  s.dependency 'MBProgressHUD', '~> 1.0.0'
@@ -46,6 +46,9 @@ TODO: Add long description of the pod here.
  s.dependency 'Masonry', '1.1.0'
  s.dependency 'YYText'
  s.dependency 'YYWebImage'
+# s.dependency 'Kingfisher', '~> 4.0'
+s.dependency 'CryptoSwift'
+
  
  s.static_framework = true
  

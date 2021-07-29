@@ -14,6 +14,7 @@ import AudioToolbox
 open class HTAppPublicServiceCommonManager: NSObject {
     public static let shared: HTAppPublicServiceCommonManager = HTAppPublicServiceCommonManager()
     
+    public var testService: Bool = true
     public var targetName: String = ""
     public var targetId: String = ""
     public var userId: String = ""

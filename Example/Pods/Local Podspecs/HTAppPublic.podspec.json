@@ -25,6 +25,9 @@
     ]
   },
   "dependencies": {
+    "Alamofire": [
+
+    ],
     "SnapKit": [
 
     ],
@@ -47,6 +50,9 @@
 
     ],
     "YYWebImage": [
+
+    ],
+    "CryptoSwift": [
 
     ]
   },

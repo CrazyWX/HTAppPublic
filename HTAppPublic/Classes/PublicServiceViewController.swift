@@ -8,13 +8,15 @@
 
 import UIKit
 import RongIMKit
-//import SwiftyJSON
+import SwiftyJSON
 import Photos
+import Alamofire
+import CryptoSwift
 
 public class PublicServiceViewController: RCPublicServiceChatViewController {
 
     private let navi = HTNaviBarView().HTSon {
-        $0.configureLeftButton(image: UIImage(named: "HTAppPublic.bundle/Rectangle "))
+        $0.configureLeftButton(image: UIImage(named: "HTAppPublic.bundle/Rectangle"))
     }
     public weak var delegate: HTAppPublicServiceDelegate? = nil
     weak var userInfoDataSource: HTAPServiceDataSource? = nil {
@@ -65,6 +67,38 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         register(PSMessageCell.self, forMessageClass: RCTextMessage.classForCoder())
         configureSubviews()
         configureChatSetting()
+        getWelcomMessage()
+    }
+    
+    private func getWelcomMessage() {
+        let appId: String = "10001004"
+        //时间戳
+        let timestamp: Int = Int(Date().timeIntervalSince1970 * 1000)
+        //8位随机数
+        let noStr: Int = Int(arc4random_uniform(89999999) + 10000000)
+        let secret: String = "asdfasdfasd"
+        let sign: String = "appId=\(appId)&noStr=\(noStr)&secret=\(secret)&timestamp=\(timestamp)"
+        let plainData = sign.data(using: String.Encoding.utf8)
+        let base64String: String = plainData?.base64EncodedString().uppercased() ?? ""
+        let headers: HTTPHeaders = [
+            "appId": appId,
+            "noStr": "\(noStr)",
+            "timestamp":"\(timestamp)",
+            "sign":base64String,
+            "Content-Type":"application/json"
+        ]
+        let officialAccountId: String = targetId
+        let userId: String = HTAppPublicServiceCommonManager.shared.currentUserInfo?.userId ?? ""
+        let param: Parameters = ["officialAccountId":officialAccountId,"interval":2,"userId":userId,"pushFlag":true]
+        var hyperLink: String = ""
+        if HTAppPublicServiceCommonManager.shared.testService == true {
+            hyperLink = "http://172.30.10.108:8082/ronghub/officialAccount/pushWelcomeMsg.json"
+        } else {
+            hyperLink = "https://esb.huatu.com/ronghub/officialAccount/pushWelcomeMsg.json"
+        }
+        HTAppPublicNetwork.apiRequest(hyperLink, parameters: param, headers: headers, timeOutHandle: nil, notConnectInternet: nil) { json, error in
+            //
+        }
     }
     
     public override func viewWillAppear(_ animated: Bool) {

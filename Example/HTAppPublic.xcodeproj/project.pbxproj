@@ -49,7 +49,7 @@
 		BEFBC6AA9B7693C5B1E49004 /* Pods-HTAppPublic_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HTAppPublic_Example.release.xcconfig"; path = "Target Support Files/Pods-HTAppPublic_Example/Pods-HTAppPublic_Example.release.xcconfig"; sourceTree = "<group>"; };
 		EC5604585F0019AB2F281F0F /* Pods_HTAppPublic_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HTAppPublic_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D1BCF485628E2B452308B0 /* Pods_HTAppPublic_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HTAppPublic_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF9665652FA5E0D66B7AEBC7 /* HTAppPublic.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HTAppPublic.podspec; path = ../HTAppPublic.podspec; sourceTree = "<group>"; };
+		FF9665652FA5E0D66B7AEBC7 /* HTAppPublic.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = HTAppPublic.podspec; path = ../HTAppPublic.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +369,8 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-HTAppPublic_Example/Pods-HTAppPublic_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -380,6 +382,8 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
