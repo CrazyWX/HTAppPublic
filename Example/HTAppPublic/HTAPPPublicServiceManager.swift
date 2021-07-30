@@ -72,6 +72,14 @@ public class HTAPPPublicServiceManager: NSObject, HTAppPublicServiceDelegate, HT
                             _ conversationType: RCConversationType = .ConversationType_APPSERVICE,
                                    _ conversationTitle: String) {
         if let currentVc = HTAPCurrentViewController() {
+            /// 当前公众号的id和name
+            HTAppPublicServiceCommonManager.shared.targetId = targetId
+            HTAppPublicServiceCommonManager.shared.targetName = conversationTitle
+            /// 当前登录账号的id和name
+            HTAppPublicServiceCommonManager.shared.userId = "49112"
+            HTAppPublicServiceCommonManager.shared.userName = "王霞"
+            HTAppPublicServiceCommonManager.shared.testService = true
+
             RCIMClient.shared()?.clearMessagesUnreadStatus(conversationType, targetId: targetId)
             let conversationVC = PublicServiceViewController()
             conversationVC.conversationType = conversationType
@@ -84,13 +92,6 @@ public class HTAPPPublicServiceManager: NSObject, HTAppPublicServiceDelegate, HT
             conversationVC.waterMaskImage = nil
  */
             currentVc.navigationController?.pushViewController(conversationVC, animated: true)
-            /// 当前公众号的id和name
-            HTAppPublicServiceCommonManager.shared.targetId = targetId
-            HTAppPublicServiceCommonManager.shared.targetName = conversationTitle
-            /// 当前登录账号的id和name
-            HTAppPublicServiceCommonManager.shared.userId = "49112"
-            HTAppPublicServiceCommonManager.shared.userName = "王霞"
-            HTAppPublicServiceCommonManager.shared.testService = true
         }
     }
     // MARK: - 导航栏右侧按钮
