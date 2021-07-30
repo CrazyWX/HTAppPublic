@@ -452,7 +452,7 @@ extension PSMessageCell {
         if linkURL.count > 0 && linkRange.count > 0 {
             for (index, url) in linkURL.enumerated() {
                 let linkRange: NSRange = linkRange[index]
-                if linkRange.location + linkRange.length <= secondHead.count {
+                if linkRange.location + linkRange.length - 1 <= secondHead.count {
                     let linkAction: TTTAttributedLabelLink = descriptionLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
