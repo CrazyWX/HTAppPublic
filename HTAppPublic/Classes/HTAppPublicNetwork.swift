@@ -78,7 +78,7 @@ public class HTAppPublicNetwork: NSObject {
         token = token.md5()
         let headers: HTTPHeaders = [
             "userId": userId,
-            "officialAccountId": officialAccountId,
+            "officialAccountCode": officialAccountId,
             "timestamp":timestamp,
             "random":random,
             "token":token

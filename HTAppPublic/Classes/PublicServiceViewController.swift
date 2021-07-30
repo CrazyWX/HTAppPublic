@@ -89,7 +89,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         ]
         let officialAccountId: String = targetId
         let userId: String = HTAppPublicServiceCommonManager.shared.currentUserInfo?.userId ?? ""
-        let param: Parameters = ["officialAccountId":officialAccountId,"interval":2,"userId":userId,"pushFlag":true]
+        let param: Parameters = ["officialAccountCode":officialAccountId,"interval":2,"userId":userId,"pushFlag":true]
         var hyperLink: String = ""
         if HTAppPublicServiceCommonManager.shared.testService == true {
             hyperLink = "http://172.30.10.108:8082/ronghub/officialAccount/pushWelcomeMsg.json"
