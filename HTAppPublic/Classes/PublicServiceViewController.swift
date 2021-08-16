@@ -68,6 +68,8 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         configureSubviews()
         configureChatSetting()
         getWelcomMessage()
+        
+        self.scrollToBottom(animated: true)
     }
     
     private func getWelcomMessage() {
@@ -89,7 +91,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         ]
         let officialAccountId: String = targetId
         let userId: String = HTAppPublicServiceCommonManager.shared.currentUserInfo?.userId ?? ""
-        let param: Parameters = ["officialAccountCode":officialAccountId,"interval":2,"userId":userId,"pushFlag":true]
+        let param: Parameters = ["officialAccountCode":officialAccountId,"interval":24 * 60,"userId":userId,"pushFlag":true]
         var hyperLink: String = ""
         if HTAppPublicServiceCommonManager.shared.testService == true {
             hyperLink = "http://172.30.10.108:8082/ronghub/officialAccount/pushWelcomeMsg.json"
@@ -106,12 +108,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         refreshUserInfoOrGroupInfo()
         configNotice()
     }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.scrollToBottom(animated: true)
-    }
-            
+                
     private func configureSubviews() {
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = HTTheme.backgroundColor
