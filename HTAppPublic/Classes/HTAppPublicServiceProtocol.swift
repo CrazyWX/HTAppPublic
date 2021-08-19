@@ -12,7 +12,7 @@ import RongIMKit
 @objc public protocol HTAppPublicServiceDelegate {
     @objc optional func naviBarRightButtonTitle(_ targetId: String) -> String?
     @objc optional func naviBarRightButtonImage(_ targetId: String) -> UIImage?
-    @objc optional func naviBarRightButtonAction()
+    @objc optional func naviBarRightButtonAction(_ targetId: String)
     @objc optional func appPublicServiceBottomView(_ targetId: String) -> UIView?
     @objc optional func appPublicServiceHeaderView() -> UIView?
     // 头部欢迎语的数据更新

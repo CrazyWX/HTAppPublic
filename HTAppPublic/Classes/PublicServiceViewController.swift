@@ -416,7 +416,7 @@ extension PublicServiceViewController: DoubleTapDelegate {
 extension PublicServiceViewController {
     @objc func clickRightBtn() {
         if let del = delegate {
-            del.naviBarRightButtonAction?()
+            del.naviBarRightButtonAction?(targetId)
         }
     }
 }
