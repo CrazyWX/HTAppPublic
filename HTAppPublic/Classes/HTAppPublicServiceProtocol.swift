@@ -15,6 +15,9 @@ import RongIMKit
     @objc optional func naviBarRightButtonAction(_ targetId: String)
     @objc optional func appPublicServiceBottomView(_ targetId: String) -> UIView?
     @objc optional func appPublicServiceHeaderView() -> UIView?
+    // 如果需要欢迎语，需要实现该方法
+    // 出参字典的key保持不动：["appId":"","secret":"","interval":""]
+    @objc optional func appWelcomMessageParam(_ targetId: String) -> [String:String]
     // 头部欢迎语的数据更新
     @objc optional func appPublicServiceRefreshNoticeHeader(_ targetId: String, _ topView: UIView)
     // 分享文件或者图片到微信时的title字段

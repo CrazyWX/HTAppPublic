@@ -73,12 +73,23 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
     }
     
     private func getWelcomMessage() {
-        let appId: String = "10001004"
+        var appId: String = ""
+        var secret: String = ""
+        var interval: Int = 24 * 60
+        if let del = delegate {
+            if let dic = del.appWelcomMessageParam?(targetId) {
+                appId = dic["appId"] ?? "10001004"
+                secret = dic["secret"] ?? "asdfasdfasd"
+                interval = (dic["interval"] ?? "").HTtoInt() ?? 24 * 60
+            }
+        }
+        guard appId != "", secret != "" else {
+            return
+        }
         //时间戳
         let timestamp: Int = Int(Date().timeIntervalSince1970 * 1000)
         //8位随机数
         let noStr: Int = Int(arc4random_uniform(89999999) + 10000000)
-        let secret: String = "asdfasdfasd"
         let sign: String = "appId=\(appId)&noStr=\(noStr)&secret=\(secret)&timestamp=\(timestamp)"
         let plainData = sign.data(using: String.Encoding.utf8)
         let base64String: String = plainData?.base64EncodedString().uppercased() ?? ""
@@ -91,7 +102,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         ]
         let officialAccountId: String = targetId
         let userId: String = HTAppPublicServiceCommonManager.shared.currentUserInfo?.userId ?? ""
-        let param: Parameters = ["officialAccountCode":officialAccountId,"interval":24 * 60,"userId":userId,"pushFlag":true]
+        let param: Parameters = ["officialAccountCode":officialAccountId,"interval": interval,"userId":userId,"pushFlag":true]
         var hyperLink: String = ""
         if HTAppPublicServiceCommonManager.shared.testService == true {
             hyperLink = "http://172.30.10.108:8082/ronghub/officialAccount/pushWelcomeMsg.json"
