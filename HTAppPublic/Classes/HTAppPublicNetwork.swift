@@ -26,7 +26,7 @@ public class HTAppPublicNetwork: NSObject {
         return try! Alamofire.URLEncoding().encode(mutableURLRequest, with: nil)
     }
     
-    static func apiRequest(_ url: String,
+    public static func apiRequest(_ url: String,
                             parameters: [String: Any]? = nil,
                             headers: HTTPHeaders,
                             timeOutHandle: (()->Void)? = nil,

@@ -38,10 +38,10 @@ public class PSInfoObject: NSObject {
     }
 }
 
-struct HTAppPublicCommonData {
-    var content: String = ""
+public struct HTAppPublicCommonData {
+    public var content: String = ""
     //是否包含外链接需要处理。如果为true，需要移动端处理<esbhref>{此处为外链信息JSON串}</esbhref>
-    var includeHref: Bool = false
+    public var includeHref: Bool = false
     init(_ json: JSON) {
         if json["formContent"] != JSON.null {
             content = json["formContent"].stringValue
@@ -51,7 +51,7 @@ struct HTAppPublicCommonData {
         includeHref = json["includeHref"].boolValue
     }
 }
-struct HTAppPublicButtonData {
+public struct HTAppPublicButtonData {
     var hrefType: Int = 0 //链接类型 1：H5 2：原生 3: 电话
     var url: String = ""//链接地址，包含参数。H5及原生都使用此种方式传参
     var showText: String = "" //展示的按钮名字
@@ -73,11 +73,11 @@ public class PSMessageModel: NSObject {
     public var id: Int = 0
     public var endTitle: String = ""
     
-    var version: String = ""
-    var firstHead: String = ""
-    var secondHead: HTAppPublicCommonData?
-    var form: HTAppPublicCommonData?
-    var buttonList: [HTAppPublicButtonData] = []
+    public var version: String = ""
+    public var firstHead: String = ""
+    public var secondHead: HTAppPublicCommonData? = nil
+    public var form: HTAppPublicCommonData? = nil
+    public var buttonList: [HTAppPublicButtonData] = []
     
     public var hyperLinkContent: String {
         get {
@@ -133,7 +133,7 @@ public class PSMessageModel: NSObject {
             return true
         }
     }
-    func getHyperLinkTitle(_ label: TTTAttributedLabel? = nil, _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
+    public func getHyperLinkTitle(_ label: TTTAttributedLabel? = nil, _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
         let leftString: String = "#*￥$#{"
         let rightString: String = "}#*￥$#"
         let totalLength: Int = leftString.count - 1
@@ -189,8 +189,8 @@ public class PSMessageModel: NSObject {
         return title
     }
     //MARK: -----------  获取超链接文本内容 ------------
-    func getHyperLinkTemplateContent(_ content: String? = nil,
-                                     _ label: TTTAttributedLabel? = nil,
+    public func getHyperLinkTemplateContent(_ content: String? = nil,
+                                     _ label: UILabel? = nil,
                                      _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
         if let formContent = content {
             let leftString: String = "<esbhref>{"
@@ -264,7 +264,7 @@ public class PSMessageModel: NSObject {
             return infoDetailHeight(width)
         }
     }
-    func templateHeight(_ width: Double = 0.0) -> CGFloat {
+    public func templateHeight(_ width: Double = 0.0) -> CGFloat {
         var totalHeight: CGFloat = 0.0
         template.forEach { (info) in
             let titleHeight = descriptionFont.HTAppSize(of: info.title + " : " + info.value, constrainedToWidth: viewLabelContentWidth(width)).height
