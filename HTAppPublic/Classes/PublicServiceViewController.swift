@@ -118,6 +118,12 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         super.viewWillAppear(animated)
         refreshUserInfoOrGroupInfo()
         configNotice()
+        markAppServiceRead()
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        markAppServiceRead()
+        super.viewDidDisappear(animated)
     }
                 
     private func configureSubviews() {
@@ -171,6 +177,32 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
                 chatSessionInputBarControl.publicServiceMenu = menu
                 profile.menu = menu
             }
+        }
+    }
+    // MARK: - 公众号设置所有消息已读
+    private func markAppServiceRead() {
+        var appId: String = ""
+        var secret: String = ""
+        if let del = delegate {
+            if let dic = del.appWelcomMessageParam?(targetId) {
+                appId = dic["appId"] ?? "10001004"
+                secret = dic["secret"] ?? "asdfasdfasd"
+            }
+        }
+        guard appId != "", secret != "" else {
+            return
+        }
+        var url: String = ""
+        if HTAppPublicServiceCommonManager.shared.testService == true {
+            url = "https://dev-esb.huatu.com/ronghub/officialAccount/markRead.json"
+        } else {
+            url = "https://esb.huatu.com/ronghub/officialAccount/markRead.json"
+        }
+        let officialAccountId: String = targetId
+        let userId: String = HTAppPublicServiceCommonManager.shared.currentUserInfo?.userId ?? ""
+        HTAppPublicNetwork.markRead(url: url, userId: userId, officialAccountId: officialAccountId, secret: secret, appId: appId) {
+            //
+        } failure: { (code, msg) in
         }
     }
     

@@ -267,7 +267,7 @@ public class PSMessageModel: NSObject {
     public func templateHeight(_ width: Double = 0.0) -> CGFloat {
         var totalHeight: CGFloat = 0.0
         template.forEach { (info) in
-            let titleHeight = descriptionFont.HTAppSize(of: info.title + " : " + info.value, constrainedToWidth: viewLabelContentWidth(width)).height
+            let titleHeight = labelHeight(content: info.title + " : " + info.value, width: viewLabelContentWidth(width), font: descriptionFont)
             totalHeight =  totalHeight + titleHeight
         }
         return totalHeight + HTAdapter.suitW(20)
@@ -284,7 +284,8 @@ public class PSMessageModel: NSObject {
     }
 
     private func normalHeight(_ width: Double = 0.0) -> CGFloat {
-        let titleHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTitle(), constrainedToWidth: viewLabelContentWidth(width)).height
+        let content: String = getHyperLinkTitle()
+        let titleHeight: CGFloat = labelHeight(content: content, width: viewLabelContentWidth(width), font: descriptionFont)
         return HTAdapter.suitW(20) + titleHeight
     }
     
@@ -292,12 +293,12 @@ public class PSMessageModel: NSObject {
         let contentWidth: Double = viewLabelContentWidth(width)
         var resultHeight: CGFloat = HTAdapter.suitW(10)
         if head != "" {
-            let titleHeight: CGFloat = titleFont.HTAppSize(of: head, constrainedToWidth: contentWidth).height
+            let titleHeight: CGFloat = labelHeight(content: head, width: contentWidth, font: titleFont)
             resultHeight = resultHeight + titleHeight
         }
         /// 描述字段非空
         if title != "" {
-            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: contentWidth).height
+            let detailHeight: CGFloat = labelHeight(content: title, width: contentWidth, font: descriptionFont)
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         let totalHeight: CGFloat = templateHeight()
@@ -319,17 +320,19 @@ public class PSMessageModel: NSObject {
         var resultHeight: CGFloat = HTAdapter.suitW(10)
         /// 主标题
         if firstHead != "" {
-            let titleHeight: CGFloat = titleFont.HTAppSize(of: firstHead, constrainedToWidth: contentWidth).height
+            let titleHeight: CGFloat = labelHeight(content: firstHead, width: contentWidth, font: titleFont)
             resultHeight = resultHeight + titleHeight
         }
         /// 副标题
         if secondHead?.content != "" {
-            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTemplateContent(secondHead?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            let content: String = getHyperLinkTemplateContent(secondHead?.content)
+            let detailHeight: CGFloat = labelHeight(content: content, width: contentWidth, font: descriptionFont)
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         /// 表项
         if form?.content != "" {
-            let detailHeight: CGFloat = descriptionFont.HTAppSize(of: getHyperLinkTemplateContent(form?.content), constrainedToWidth: viewLabelContentWidth(width)).height
+            let content: String = getHyperLinkTemplateContent(form?.content)
+            let detailHeight: CGFloat = labelHeight(content: content, width: contentWidth, font: descriptionFont)
             resultHeight = resultHeight + HTAdapter.suitW(8) + detailHeight
         }
         resultHeight = resultHeight + HTAdapter.suitW(8)
@@ -351,7 +354,16 @@ public class PSMessageModel: NSObject {
         let totalHeight: CGFloat = questionTemplateHeight()
         return HTAdapter.suitW(10) + titleHeight + totalHeight
     }
-
+    
+    private func labelHeight(content: String, width: Double, font: UIFont) -> CGFloat {
+        let attrString = NSMutableAttributedString.init(string: content);
+        let paragrapStyle = NSMutableParagraphStyle()
+        paragrapStyle.lineSpacing = 5
+        attrString.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragrapStyle, range: NSRange.init(location: 0, length: content.count))
+        attrString.addAttribute(NSAttributedString.Key.font, value: font, range: NSRange.init(location: 0, length: content.count))
+        let height: CGFloat = TTTAttributedLabel.sizeThatFitsAttributedString(attrString, withConstraints: CGSize.init(width: width, height: Double(MAXFLOAT)), limitedToNumberOfLines: 0).height
+        return height
+    }
 }
 
 

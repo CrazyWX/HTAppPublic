@@ -75,6 +75,7 @@ class PSMessageCell: RCMessageCell {
         label.enabledTextCheckingTypes = NSTextCheckingAllTypes
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.lineSpacing = 5.0
         return label
     }()
     lazy var contentLabel: TTTAttributedLabel = {
@@ -88,6 +89,7 @@ class PSMessageCell: RCMessageCell {
         label.enabledTextCheckingTypes = NSTextCheckingAllTypes
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.lineSpacing = 5.0
         label.isHidden = true
         return label
     }()
@@ -102,6 +104,7 @@ class PSMessageCell: RCMessageCell {
         label.enabledTextCheckingTypes = NSTextCheckingAllTypes
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.lineSpacing = 5.0
         label.isHidden = true
         return label
     }()

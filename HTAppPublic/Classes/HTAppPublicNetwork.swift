@@ -107,4 +107,47 @@ public class HTAppPublicNetwork: NSObject {
             }
         }
     }
+    public static func markRead(url:String,userId:String,officialAccountId:String,secret:String,appId: String,success : @escaping () -> Void, failure : @escaping (_ code:Int, _ msg:String) -> Void) { // esb接口
+        rongHubMarkRead(userId: userId, officialAccountCode: officialAccountId, secret: secret, appId: appId, url: url) {
+            success()
+        } failure: { (code, msg) in
+            failure(code, msg)
+        }
+    }
+    static func rongHubMarkRead(userId : String,
+                                officialAccountCode: String,
+                                secret: String,
+                                appId: String,
+                                url: String,
+                                 timeOut : (()->Void)? = nil,
+                            success : @escaping () -> Void,
+                       failure : @escaping (_ code:Int, _ msg:String) -> Void) {
+        //时间戳
+        let timestamp: Int = Int(Date().timeIntervalSince1970 * 1000)
+        //8位随机数
+        let noStr: Int = Int(arc4random_uniform(89999999) + 10000000)
+        let sign: String = "appId=\(appId)&noStr=\(noStr)&secret=\(secret)&timestamp=\(timestamp)"
+        let plainData = sign.data(using: String.Encoding.utf8)
+        let base64String: String = plainData?.base64EncodedString().uppercased() ?? ""
+        let headers: HTTPHeaders = [
+            "appId": appId,
+            "noStr": "\(noStr)",
+            "timestamp":"\(timestamp)",
+            "sign":base64String,
+            "Content-Type":"application/json"
+        ]
+        let param: Parameters = ["userId":userId,"officialAccountCode":officialAccountCode]
+        HTAppPublicNetwork.apiRequest(url, parameters: param, headers: headers, timeOutHandle: nil, notConnectInternet: nil) { json, error in
+            if let json = json {
+                if let code = json["code"].int, code == 0 {
+                    success()
+                } else {
+                    failure(-200,"")
+                }
+            } else {
+                failure(-200,"")
+            }
+        }
+    }
+
 }
