@@ -72,7 +72,7 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-        label.enabledTextCheckingTypes = NSTextCheckingAllTypes
+//        label.enabledTextCheckingTypes = NSTextCheckingAllSystemTypes | NSTextCheckingTypeLink
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
@@ -86,7 +86,7 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-        label.enabledTextCheckingTypes = NSTextCheckingAllTypes
+//        label.enabledTextCheckingTypes = NSTextCheckingTypeLink
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
@@ -101,7 +101,7 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-        label.enabledTextCheckingTypes = NSTextCheckingAllTypes
+//        label.enabledTextCheckingTypes = NSTextCheckingTypeLink
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
