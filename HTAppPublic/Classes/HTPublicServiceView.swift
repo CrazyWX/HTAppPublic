@@ -388,6 +388,10 @@ extension PSMessageCell {
                     make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
                 }
             }else {
+                descriptionLabel.snp_remakeConstraints { (make) in
+                    make.left.right.equalTo(titleLabel)
+                    make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                }
                 descriptionLabel.isHidden = false
                 contentLabelView.snp_remakeConstraints { (make) in
                     make.left.right.equalTo(titleLabel)
@@ -398,6 +402,10 @@ extension PSMessageCell {
                 configQuestionInfoCell()
             } else {
                 configInfoDetailCellModel()
+            }
+            showDetailView.snp_remakeConstraints { (make) in
+                make.left.right.bottom.equalToSuperview()
+                make.height.equalTo(HTAdapter.suitW(44))
             }
         }
 
@@ -432,6 +440,11 @@ extension PSMessageCell {
                 make.top.equalToSuperview().offset(HTAdapter.suitW(10))
             }
         } else {
+            titleLabel.snp_remakeConstraints { (make) in
+                make.top.equalToSuperview().offset(HTAdapter.suitW(10))
+                make.left.equalToSuperview().offset(HTAdapter.suitW(17))
+                make.right.equalToSuperview().offset(HTAdapter.suitW(-17))
+            }
             descriptionLabel.snp_remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
                 make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
