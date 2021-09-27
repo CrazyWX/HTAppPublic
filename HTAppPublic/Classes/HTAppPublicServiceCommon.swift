@@ -9,10 +9,18 @@
 import UIKit
 import MBProgressHUD
 
-public let kHTScreenBounds = UIScreen.main.bounds
-public let kHTScreenSize   = kHTScreenBounds.size
-public let kHTScreenWidth  = kHTScreenSize.width
-public let kHTScreenHeight = kHTScreenSize.height
+public var kHTScreenBounds: CGRect {
+    return UIScreen.main.bounds
+}
+public var kHTScreenSize: CGSize {
+    return kHTScreenBounds.size
+}
+public var kHTScreenWidth: CGFloat {
+    return kHTScreenSize.width
+}
+public var kHTScreenHeight: CGFloat {
+    return kHTScreenSize.height
+}
 
 public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
 public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
