@@ -43,8 +43,8 @@ public class HTAppPublicServiceCellManager: NSObject {
     public var attributedLabelDidSelectedLink: ((URL)->())?
     // 查看详情卡片点击查看更多事件 (非必实现)
     public var showMoreActionBlock: ((PublicServiceModelType, String)->())?
-    // 点击了跳转 （链接类型Int, 链接地址String, 名字String, 后台授权密钥String）
-    public var hrefContentClickActionBlock: ((Int, String, String, String)->())?
+    // 点击了跳转 （链接类型Int, 链接地址String, 名字String, 后台授权密钥String, 文件类型String）
+    public var hrefContentClickActionBlock: ((Int, String, String, String, String)->())?
     // 分享到微信
     public var shareToWechatBlock:((String, String, UIImage?, URL?)->())?
     // 旧版本：两个按钮情况

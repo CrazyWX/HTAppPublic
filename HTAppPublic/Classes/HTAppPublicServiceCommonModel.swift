@@ -52,15 +52,18 @@ public struct HTAppPublicCommonData {
     }
 }
 public struct HTAppPublicButtonData {
-    var hrefType: Int = 0 //链接类型 1：H5 2：原生 3: 电话
+    var hrefType: Int = 0 //链接类型 1：H5 2：原生 3: 电话 4: 接口 5: 文件
     var url: String = ""//链接地址，包含参数。H5及原生都使用此种方式传参
     var showText: String = "" //展示的按钮名字
     var secret: String = "" //密钥
+    var fileType: String = "" //文件
+    
     init(_ json: JSON) {
         hrefType = json["hrefType"].intValue
         url = json["url"].stringValue
         showText = json["showText"].stringValue
         secret = json["secret"].stringValue
+        fileType = json["fileType"].stringValue
     }
 }
 
@@ -229,7 +232,7 @@ public class PSMessageModel: NSObject {
                     linkValues.append(linkValue)
                     let hyperLinkRange = NSRange(location: leftRange.location - minusValueCount, length: linkValue.count)
                     hyperLinkRanges.append(hyperLinkRange)
-                    let newUrlString: String = "scheme://?hrefType=\(jsonValue["hrefType"])&url=\(jsonValue["url"])&showText=\(jsonValue["showText"])&secret=\(jsonValue["secret"])"
+                    let newUrlString: String = "scheme://?hrefType=\(jsonValue["hrefType"])&url=\(jsonValue["url"])&showText=\(jsonValue["showText"])&secret=\(jsonValue["secret"])&fileType=\(jsonValue["fileType"])"
                     newUrlStrings.append(newUrlString)
                     minusValueCount = minusValueCount + (linkContent.count - linkValue.count) + allTotalLength
                 }

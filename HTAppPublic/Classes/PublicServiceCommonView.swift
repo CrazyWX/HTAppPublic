@@ -187,7 +187,7 @@ class PSShowDetailView: UIView {
             }
         } else {
             if let handle = shared.hrefContentClickActionBlock {
-                handle(data.hrefType, data.url, data.showText, data.secret)
+                handle(data.hrefType, data.url, data.showText, data.secret, data.fileType)
             }
         }
     }
@@ -197,7 +197,7 @@ class PSShowDetailView: UIView {
         if templateButtonList.count == 1 {
             let data = templateButtonList[0]
             if let handle = shared.hrefContentClickActionBlock {
-                handle(data.hrefType, data.url, data.showText, data.secret)
+                handle(data.hrefType, data.url, data.showText, data.secret, data.fileType)
             }
             return
         }

@@ -484,10 +484,11 @@ extension PSMessageCell {
                                     let hyperLink: String = urlParam["url"] as? String ?? ""
                                     let hyperName: String = urlParam["showText"] as? String ?? ""
                                     let secret: String = urlParam["secret"] as? String ?? ""
+                                    let fileType: String = urlParam["fileType"] as? String ?? ""
 
                                     let shared: HTAppPublicServiceCellManager = HTAppPublicServiceCellManager.shared
                                     if let handle = shared.hrefContentClickActionBlock {
-                                        handle(type, hyperLink, hyperName, secret)
+                                        handle(type, hyperLink, hyperName, secret, fileType)
                                     }
                                 } else {
                                     weakSelf.doOnlyTextHyperLinkAction(url)
@@ -526,10 +527,11 @@ extension PSMessageCell {
                                     let hyperLink: String = urlParam["url"] as? String ?? ""
                                     let hyperName: String = urlParam["showText"] as? String ?? ""
                                     let secret: String = urlParam["secret"] as? String ?? ""
+                                    let fileType: String = urlParam["fileType"] as? String ?? ""
 
                                     let shared: HTAppPublicServiceCellManager = HTAppPublicServiceCellManager.shared
                                     if let handle = shared.hrefContentClickActionBlock {
-                                        handle(type, hyperLink, hyperName, secret)
+                                        handle(type, hyperLink, hyperName, secret, fileType)
                                     }
                                 } else {
                                     weakSelf.doOnlyTextHyperLinkAction(url)
