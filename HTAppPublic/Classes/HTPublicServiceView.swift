@@ -303,13 +303,15 @@ extension PSMessageCell {
         let firstHeaderWidth = titleFont.HTAppSize(of: titleContent, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
 
         var templateContent: String = messageContentModel.secondHead?.content ?? ""
-        if templateContent.count < messageContentModel.form?.content.count ?? 0 {
-            templateContent = messageContentModel.form?.content ?? ""
-        }
-        let title: String = messageContentModel.getHyperLinkTemplateContent(templateContent)
-        var titleWidth = descriptionFont.HTAppSize(of: title, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
-        titleWidth = max(firstHeaderWidth, titleWidth)
+        let secondHeaderContent: String = messageContentModel.getHyperLinkTemplateContent(templateContent)
+        templateContent = messageContentModel.form?.content ?? ""
+        let formContent: String = messageContentModel.getHyperLinkTemplateContent(templateContent)
+        let secondHeaderWidth = descriptionFont.HTAppSize(of: secondHeaderContent, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
+        let formWidth = descriptionFont.HTAppSize(of: formContent, constrainedToHeigh: 1000.0).width + HTAdapter.suitW(40)
+        var titleWidth = max(firstHeaderWidth, secondHeaderWidth)
+        titleWidth = max(formWidth, titleWidth)
         let oneLineHeight = descriptionFont.HTAppSize(of: "title", constrainedToWidth: p_titleContentWidth).height
+        let title: String = secondHeaderContent.count > formContent.count ? secondHeaderContent : formContent
         let titleHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: p_titleContentWidth).height
         if oneLineHeight == titleHeight, messageContentModel.buttonList.count == 0 {
             if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
