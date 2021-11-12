@@ -36,7 +36,7 @@ TODO: Add long description of the pod here.
      'HTAppPublic' => ['HTAppPublic/Assets/*.png']
   }
   # s.public_header_files = 'Pod/Classes/**/*.h'
- s.dependency 'Alamofire'
+ s.dependency 'Alamofire','4.9.1'
  s.dependency 'SnapKit'
  s.dependency 'SwiftyJSON', '4.1.0'
  s.dependency 'MBProgressHUD', '~> 1.0.0'
