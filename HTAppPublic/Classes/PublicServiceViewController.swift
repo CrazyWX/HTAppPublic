@@ -61,6 +61,8 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
     public var headerView: UIView = UIView().HTSon {
         // 头部额外增加的view
     }
+    var inputBarControlRect: CGRect = CGRect.zero
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,6 +72,8 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         getWelcomMessage()
         
         self.scrollToBottom(animated: true)
+        
+        inputBarControlRect = CGRect.init(x: 0, y: kHTScreenHeight - self.chatSessionInputBarControl.frame.size.height, width: kHTScreenWidth, height: self.chatSessionInputBarControl.frame.size.height)
     }
     
     private func getWelcomMessage() {
@@ -119,6 +123,34 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         refreshUserInfoOrGroupInfo()
         configNotice()
         markAppServiceRead()
+        
+        if inputBarControlRect != self.chatSessionInputBarControl.frame {
+            self.chatSessionInputBarControl.frame = inputBarControlRect
+        }
+        conversationMessageCollectionView.snp.remakeConstraints { (make) in
+            make.bottom.equalTo(chatSessionInputBarControl.snp.top)
+            make.top.equalTo(navi.snp.bottom)
+            make.left.right.equalToSuperview()
+        }
+
+        if let del = delegate {
+            if let bottomView = del.appPublicServiceBottomView?(targetId) {
+                view.addSubview(bottomView)
+                bottomView.snp.makeConstraints { (make) in
+                    make.bottom.equalTo(chatSessionInputBarControl.snp.top)
+                    make.left.right.equalToSuperview()
+                    make.height.equalTo(bottomView.frame.size.height)
+                }
+                conversationMessageCollectionView.snp.remakeConstraints { (make) in
+                    make.bottom.equalTo(bottomView.snp.top)
+                    make.top.equalTo(navi.snp.bottom)
+                    make.left.right.equalToSuperview()
+                }
+            }
+            if let headerView = del.appPublicServiceHeaderView?() {
+                view.addSubview(headerView)
+            }
+        }
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
@@ -146,25 +178,6 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
             make.leading.trailing.top.equalTo(view)
             make.height.equalTo(barHeight)
         }
-        if let del = delegate {
-            if let bottomView = del.appPublicServiceBottomView?(targetId) {
-                view.addSubview(bottomView)
-                bottomView.snp.makeConstraints { (make) in
-                    make.bottom.equalTo(chatSessionInputBarControl.snp_top)
-                    make.left.right.equalToSuperview()
-                    make.height.equalTo(bottomView.frame.size.height)
-                }
-                conversationMessageCollectionView.snp_remakeConstraints { (make) in
-                    make.bottom.equalTo(bottomView.snp_top)
-                    make.top.equalTo(navi.snp_bottom)
-                    make.left.right.equalToSuperview()
-                }
-            }
-            if let headerView = del.appPublicServiceHeaderView?() {
-                view.addSubview(headerView)
-            }
-        }
-        
         if let profile: RCPublicServiceProfile = RCIMClient.shared()?.getPublicServiceProfile(.APP_PUBLIC_SERVICE, publicServiceId: self.targetId) {
             var menuList: [RCPublicServiceMenuItem] = []
             if let del = delegate {
