@@ -137,50 +137,50 @@ class PSMessageCell: RCMessageCell {
     
     private func setAutoLayout() {
         messageContentView.addSubview(bkView)
-        bkView.snp_makeConstraints { (make) in
+        bkView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
 
         bkView.addSubview(titleLabel)
-        titleLabel.snp_makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(HTAdapter.suitW(10))
             make.left.equalToSuperview().offset(HTAdapter.suitW(17))
             make.right.equalToSuperview().offset(HTAdapter.suitW(-17))
         }
         
         bkView.addSubview(showDetailView)
-        showDetailView.snp_makeConstraints { (make) in
+        showDetailView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44))
         }
         bkView.addSubview(showTransmitView)
-        showTransmitView.snp_makeConstraints { (make) in
+        showTransmitView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44))
         }
 
         bkView.addSubview(descriptionLabel)
-        descriptionLabel.snp_makeConstraints { (make) in
+        descriptionLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+            make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
         }
 
         bkView.addSubview(contentLabelView)
-        contentLabelView.snp_makeConstraints { (make) in
+        contentLabelView.snp.makeConstraints { (make) in
             make.left.right.equalTo(titleLabel)
-            make.top.equalTo(descriptionLabel.snp_bottom).offset(HTAdapter.suitW(8))
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(HTAdapter.suitW(8))
         }
         
         bkView.addSubview(contentLabel)
-        contentLabel.snp_makeConstraints { (make) in
+        contentLabel.snp.makeConstraints { (make) in
             make.left.right.equalTo(titleLabel)
-            make.top.equalTo(descriptionLabel.snp_bottom).offset(HTAdapter.suitW(8))
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(HTAdapter.suitW(8))
         }
 
         bkView.addSubview(showQuestionView)
-        showQuestionView.snp_makeConstraints { (make) in
+        showQuestionView.snp.makeConstraints { (make) in
             make.left.right.equalTo(titleLabel)
-            make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+            make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
         }
     }
     
@@ -216,18 +216,18 @@ extension PSMessageCell {
         let titleHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: p_titleContentWidth).height
         if oneLineHeight == titleHeight {
             if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
-                bkView.snp_remakeConstraints { (make) in
+                bkView.snp.remakeConstraints { (make) in
                     make.top.left.bottom.equalToSuperview()
                     make.width.equalTo(titleWidth)
                 }
             } else {
-                bkView.snp_remakeConstraints { (make) in
+                bkView.snp.remakeConstraints { (make) in
                     make.top.right.bottom.equalToSuperview()
                     make.width.equalTo(titleWidth)
                 }
             }
         } else {
-            bkView.snp_remakeConstraints { (make) in
+            bkView.snp.remakeConstraints { (make) in
                 make.edges.equalToSuperview()
             }
         }
@@ -248,7 +248,7 @@ extension PSMessageCell {
         titleLabel.font = titleFont
         titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
-        bkView.snp_remakeConstraints { (make) in
+        bkView.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         titleLabel.isHidden = false
@@ -264,7 +264,7 @@ extension PSMessageCell {
         titleLabel.font = titleFont
         titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
-        bkView.snp_remakeConstraints { (make) in
+        bkView.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
         }
         titleLabel.isHidden = false
@@ -283,16 +283,16 @@ extension PSMessageCell {
         descriptionLabel.isHidden = true
         if messageContentModel.head == "" {
             titleLabel.isHidden = true
-            showQuestionView.snp_remakeConstraints { (make) in
+            showQuestionView.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
                 make.top.equalTo(titleLabel)
                 make.bottom.equalToSuperview()
             }
         } else {
             titleLabel.isHidden = false
-            showQuestionView.snp_remakeConstraints { (make) in
+            showQuestionView.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
-                make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
                 make.bottom.equalToSuperview()
             }
         }
@@ -315,18 +315,18 @@ extension PSMessageCell {
         let titleHeight: CGFloat = descriptionFont.HTAppSize(of: title, constrainedToWidth: p_titleContentWidth).height
         if oneLineHeight == titleHeight, messageContentModel.buttonList.count == 0 {
             if model.senderUserId == HTAppPublicServiceCommonManager.shared.targetId {
-                bkView.snp_remakeConstraints { (make) in
+                bkView.snp.remakeConstraints { (make) in
                     make.top.left.bottom.equalToSuperview()
                     make.width.equalTo(titleWidth)
                 }
             } else {
-                bkView.snp_remakeConstraints { (make) in
+                bkView.snp.remakeConstraints { (make) in
                     make.top.right.bottom.equalToSuperview()
                     make.width.equalTo(titleWidth)
                 }
             }
         } else {
-            bkView.snp_remakeConstraints { (make) in
+            bkView.snp.remakeConstraints { (make) in
                 make.edges.equalToSuperview()
             }
         }
@@ -365,10 +365,10 @@ extension PSMessageCell {
             titleLabel.text = content
             
             if linkURL.count > 0 && linkRange.count > 0 {
-                for (index, url) in linkURL.enumerated() {
-                    let linkRange: NSRange = linkRange[index]
-                    if linkRange.location + linkRange.length <= content.count {
-                        let linkAction: TTTAttributedLabelLink = titleLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
+                for (idx, item) in linkURL.enumerated() {
+                    let lRange: NSRange = linkRange[idx]
+                    if lRange.location + lRange.length <= content.count {
+                        let linkAction: TTTAttributedLabelLink = titleLabel.addLink(to: URL.init(string: item.HTurlEncoded()), with: lRange)
                         linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                             if let weakSelf = self {
                                 if let url: URL = link?.result.url {
@@ -385,19 +385,19 @@ extension PSMessageCell {
             descriptionLabel.text = messageContentModel.title
             if messageContentModel.title == "" {
                 descriptionLabel.isHidden = true
-                contentLabelView.snp_remakeConstraints { (make) in
+                contentLabelView.snp.remakeConstraints { (make) in
                     make.left.right.equalTo(titleLabel)
-                    make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                    make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
                 }
             }else {
-                descriptionLabel.snp_remakeConstraints { (make) in
+                descriptionLabel.snp.remakeConstraints { (make) in
                     make.left.right.equalTo(titleLabel)
-                    make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                    make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
                 }
                 descriptionLabel.isHidden = false
-                contentLabelView.snp_remakeConstraints { (make) in
+                contentLabelView.snp.remakeConstraints { (make) in
                     make.left.right.equalTo(titleLabel)
-                    make.top.equalTo(descriptionLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                    make.top.equalTo(descriptionLabel.snp.bottom).offset(HTAdapter.suitW(8))
                 }
             }
             if messageContentModel.type == .Question {
@@ -405,7 +405,7 @@ extension PSMessageCell {
             } else {
                 configInfoDetailCellModel()
             }
-            showDetailView.snp_remakeConstraints { (make) in
+            showDetailView.snp.remakeConstraints { (make) in
                 make.left.right.bottom.equalToSuperview()
                 make.height.equalTo(HTAdapter.suitW(44))
             }
@@ -430,31 +430,31 @@ extension PSMessageCell {
         if messageContentModel.firstHead == "" && messageContentModel.secondHead?.content == "" { // 主标题、副标题都为空
             titleLabel.isHidden = true
             descriptionLabel.isHidden = true
-            contentLabel.snp_remakeConstraints { (make) in
+            contentLabel.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
                 make.top.equalToSuperview().offset(HTAdapter.suitW(10))
             }
         } else if messageContentModel.firstHead == "" && messageContentModel.secondHead?.content != "" {
             titleLabel.isHidden = true
             descriptionLabel.isHidden = false
-            descriptionLabel.snp_remakeConstraints { (make) in
+            descriptionLabel.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
                 make.top.equalToSuperview().offset(HTAdapter.suitW(10))
             }
         } else {
-            titleLabel.snp_remakeConstraints { (make) in
+            titleLabel.snp.remakeConstraints { (make) in
                 make.top.equalToSuperview().offset(HTAdapter.suitW(10))
                 make.left.equalToSuperview().offset(HTAdapter.suitW(17))
                 make.right.equalToSuperview().offset(HTAdapter.suitW(-17))
             }
-            descriptionLabel.snp_remakeConstraints { (make) in
+            descriptionLabel.snp.remakeConstraints { (make) in
                 make.left.right.equalTo(titleLabel)
-                make.top.equalTo(titleLabel.snp_bottom).offset(HTAdapter.suitW(8))
+                make.top.equalTo(titleLabel.snp.bottom).offset(HTAdapter.suitW(8))
             }
         }
         var btnCount: Int = messageContentModel.buttonList.count
         btnCount = (btnCount % 2 == 1) ? (1 + btnCount / 2) : btnCount / 2
-        showDetailView.snp_remakeConstraints { (make) in
+        showDetailView.snp.remakeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44) * CGFloat(btnCount))
         }
@@ -468,10 +468,10 @@ extension PSMessageCell {
         })
         descriptionLabel.text = secondHead
         if linkURL.count > 0 && linkRange.count > 0 {
-            for (index, url) in linkURL.enumerated() {
-                let linkRange: NSRange = linkRange[index]
-                if linkRange.location + linkRange.length - 1 <= secondHead.count {
-                    let linkAction: TTTAttributedLabelLink = descriptionLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
+            for (idx, item) in linkURL.enumerated() {
+                let lRange: NSRange = linkRange[idx]
+                if lRange.location + lRange.length - 1 <= secondHead.count {
+                    let linkAction: TTTAttributedLabelLink = descriptionLabel.addLink(to: URL.init(string: item.HTurlEncoded()), with: lRange)
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
                             if let url: URL = link?.result.url {
@@ -511,10 +511,10 @@ extension PSMessageCell {
         contentLabel.text = content
         
         if linkURL.count > 0 && linkRange.count > 0 {
-            for (index, url) in linkURL.enumerated() {
-                let linkRange: NSRange = linkRange[index]
-                if linkRange.location + linkRange.length <= content.count {
-                    let linkAction: TTTAttributedLabelLink = contentLabel.addLink(to: URL.init(string: url.HTurlEncoded()), with: linkRange)
+            for (idx, item) in linkURL.enumerated() {
+                let lRange: NSRange = linkRange[idx]
+                if lRange.location + lRange.length <= content.count {
+                    let linkAction: TTTAttributedLabelLink = contentLabel.addLink(to: URL.init(string: item.HTurlEncoded()), with: lRange)
                     linkAction.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self](label, link) in
                         if let weakSelf = self {
                             if let url: URL = link?.result.url {
@@ -562,13 +562,13 @@ extension PSMessageCell {
             contentLabelView.addSubview(tLabel)
             tLabel.text = object.title + " : " + object.value
             if topView == nil {
-                tLabel.snp_makeConstraints { (make) in
+                tLabel.snp.makeConstraints { (make) in
                     make.left.top.right.equalToSuperview()
                 }
             } else {
-                tLabel.snp_makeConstraints { (make) in
+                tLabel.snp.makeConstraints { (make) in
                     make.left.right.equalToSuperview()
-                    make.top.equalTo(topView!.snp_bottom)
+                    make.top.equalTo(topView!.snp.bottom)
                 }
             }
             topView = tLabel

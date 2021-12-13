@@ -142,6 +142,7 @@ public class PSMessageModel: NSObject {
         let totalLength: Int = leftString.count - 1
         var leftRanges: [NSRange] = []
         var rightRanges: [NSRange] = []
+        title = (title as NSString).replacingOccurrences(of: "\r\n", with: "\n")
         if #available(iOS 10.2, *) {
             leftRanges = title.nsranges(of: leftString)
             rightRanges = title.nsranges(of: rightString)
@@ -151,7 +152,6 @@ public class PSMessageModel: NSObject {
             leftRanges = [leftRange]
             rightRanges = [rightRange]
         }
-
         var newContent: String = title
         if leftRanges.count > 0 && rightRanges.count > 0 && leftRanges.count <= rightRanges.count {
             var linkContents: [String] = []
@@ -195,7 +195,8 @@ public class PSMessageModel: NSObject {
     public func getHyperLinkTemplateContent(_ content: String? = nil,
                                      _ label: UILabel? = nil,
                                      _ block: ((_ url: [String], _ range: [NSRange])->())? = nil) -> String {
-        if let formContent = content {
+        if var formContent = content {
+            formContent = (formContent as NSString).replacingOccurrences(of: "\r\n", with: "\n")
             let leftString: String = "<esbhref>{"
             let rightString: String = "}</esbhref>"
             let totalLength: Int = leftString.count - 1
