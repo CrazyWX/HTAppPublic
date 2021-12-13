@@ -149,5 +149,62 @@ public class HTAppPublicNetwork: NSObject {
             }
         }
     }
+    //MARK: - 公众号是否需要显示水印, 同时适用get方法，参数为一个公众号id的接口
+    public static func watermark(url:String,officialAccountId:String,secret:String,appId: String,success : @escaping (Bool) -> Void, failure : @escaping (_ code:Int, _ msg:String) -> Void) { // esb接口
+        rongHubWatermark(officialAccountCode: officialAccountId, secret: secret, appId: appId, url: url, timeOut: nil) { data in
+            success(data)
+        } failure: { code, msg in
+            failure(code, msg)
+        }
 
+    }
+    static func rongHubWatermark(officialAccountCode: String,
+                                secret: String,
+                                appId: String,
+                                url: String,
+                                 timeOut : (()->Void)? = nil,
+                            success : @escaping (Bool) -> Void,
+                       failure : @escaping (_ code:Int, _ msg:String) -> Void) {
+        //时间戳
+        let timestamp: Int = Int(Date().timeIntervalSince1970 * 1000)
+        //8位随机数
+        let noStr: Int = Int(arc4random_uniform(89999999) + 10000000)
+        let sign: String = "appId=\(appId)&noStr=\(noStr)&secret=\(secret)&timestamp=\(timestamp)"
+        let plainData = sign.data(using: String.Encoding.utf8)
+        let base64String: String = plainData?.base64EncodedString().uppercased() ?? ""
+        let headers: HTTPHeaders = [
+            "appId": appId,
+            "noStr": "\(noStr)",
+            "timestamp":"\(timestamp)",
+            "sign":base64String,
+            "Content-Type":"application/json"
+        ]
+        let param: Parameters = ["officialAccountCode":officialAccountCode]
+        Alamofire.request(url, method: .get, parameters: param, encoding: URLEncoding.default, headers: headers).response { response in
+            guard  response.error == nil else {
+                failure(-200,"")
+                if let error = response.error as NSError? {
+                    if error.code == NSURLErrorNotConnectedToInternet {
+                        print("网络连接失败，请稍后再试")
+                    }else if error.code == NSURLErrorTimedOut {
+                        print("网络超时")
+                    }else {
+                        print("请求失败，请稍后再试")
+                    }
+                }
+                return
+            }
+            if let data = response.data , let json = try? JSON(data: data){
+                if (json["code"].intValue == 0){
+                    success(json["data"].boolValue)
+                }else{
+                    print(json["msg"].stringValue)
+                    failure(-200,"")
+                }
+            }else{
+                failure(-200,"")
+            }
+        }
+    }
+    //MARK: -
 }
