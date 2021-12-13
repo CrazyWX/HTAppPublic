@@ -73,7 +73,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         
         self.scrollToBottom(animated: true)
         
-        inputBarControlRect = CGRect.init(x: 0, y: kHTScreenHeight - self.chatSessionInputBarControl.frame.size.height, width: kHTScreenWidth, height: self.chatSessionInputBarControl.frame.size.height)
+        inputBarControlRect = CGRect.init(x: 0, y: kHTScreenHeight - self.chatSessionInputBarControl.frame.size.height - kHTBottomPadding, width: kHTScreenWidth, height: self.chatSessionInputBarControl.frame.size.height)
     }
     
     private func getWelcomMessage() {

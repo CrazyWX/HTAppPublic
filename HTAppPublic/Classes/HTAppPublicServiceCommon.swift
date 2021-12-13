@@ -21,6 +21,16 @@ public var kHTScreenWidth: CGFloat {
 public var kHTScreenHeight: CGFloat {
     return kHTScreenSize.height
 }
+public var kHTBottomPadding: CGFloat {
+    get {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            let bottomPadding = window?.safeAreaInsets.bottom
+            return bottomPadding!
+        }
+        return 0
+    }
+}
 
 public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
 public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
