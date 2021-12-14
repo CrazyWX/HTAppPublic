@@ -71,7 +71,7 @@ class PSShowDetailView: UIView {
             maker.centerY.equalToSuperview()
             maker.size.equalTo(UIImage(named: "HTAppPublic.bundle/nextpage")!.size)
         }
-        hLine.snp_makeConstraints { (make) in
+        hLine.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(HTAdapter.suitW(6))
             make.right.top.equalToSuperview()
             make.height.equalTo(1.0 / UIScreen.main.scale)
@@ -109,7 +109,7 @@ class PSShowDetailView: UIView {
         for (index, item) in allBtnList.enumerated() {
             if index % 2 == 0 {
                 addSubview(item)
-                item.snp_makeConstraints { (make) in
+                item.snp.makeConstraints { (make) in
                     make.left.equalToSuperview().offset(offsetX)
                     make.top.equalToSuperview().offset(offsetY)
                     make.width.equalToSuperview().dividedBy(2)
@@ -119,7 +119,7 @@ class PSShowDetailView: UIView {
                     $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
-                line.snp_makeConstraints { (make) in
+                line.snp.makeConstraints { (make) in
                     make.left.equalToSuperview().offset(offsetX)
                     make.right.equalToSuperview()
                     make.top.equalToSuperview().offset(offsetY)
@@ -130,14 +130,14 @@ class PSShowDetailView: UIView {
                     $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
-                line.snp_makeConstraints { (make) in
+                line.snp.makeConstraints { (make) in
                     make.centerX.equalToSuperview()
                     make.top.equalToSuperview().offset(offsetY)
                     make.height.equalTo(HTAdapter.suitW(44))
                     make.width.equalTo(1.0 / UIScreen.main.scale)
                 }
                 addSubview(item)
-                item.snp_makeConstraints { (make) in
+                item.snp.makeConstraints { (make) in
                     make.right.equalToSuperview()
                     make.top.equalToSuperview().offset(offsetY)
                     make.width.equalToSuperview().dividedBy(2)
@@ -149,7 +149,7 @@ class PSShowDetailView: UIView {
         if buttonCount % 2 == 1 {
             if let lastButton = buttonList.last {
                 addSubview(lastButton)
-                lastButton.snp_makeConstraints { (make) in
+                lastButton.snp.makeConstraints { (make) in
                     make.bottom.equalToSuperview()
                     make.left.equalToSuperview().offset(HTAdapter.suitW(6))
                     make.height.equalTo(HTAdapter.suitW(44))
@@ -159,10 +159,10 @@ class PSShowDetailView: UIView {
                     $0.backgroundColor = HTTheme.lineColor
                 }
                 addSubview(line)
-                line.snp_makeConstraints { (make) in
+                line.snp.makeConstraints { (make) in
                     make.left.equalToSuperview().offset(offsetX)
                     make.right.equalToSuperview()
-                    make.bottom.equalTo(lastButton.snp_top)
+                    make.bottom.equalTo(lastButton.snp.top)
                     make.height.equalTo(1.0 / UIScreen.main.scale)
                 }
             }
@@ -290,15 +290,15 @@ class PSQuestionView: UIView {
             addSubview(detailLabel)
             let titleHeight = descriptionFont.HTAppSize(of: questionContent + "12345", constrainedToWidth: p_titleContentWidth).height
             if topView == nil {
-                detailLabel.snp_makeConstraints { (make) in
+                detailLabel.snp.makeConstraints { (make) in
                     make.left.right.equalToSuperview()
                     make.top.equalToSuperview()
                     make.height.equalTo(titleHeight + HTAdapter.suitW(8))
                 }
             } else {
-                detailLabel.snp_makeConstraints { (make) in
+                detailLabel.snp.makeConstraints { (make) in
                     make.left.right.equalToSuperview()
-                    make.top.equalTo(topView!.snp_bottom)
+                    make.top.equalTo(topView!.snp.bottom)
                     make.height.equalTo(titleHeight + HTAdapter.suitW(8))
                 }
             }
@@ -370,12 +370,12 @@ class PSShowTransmitView: UIView {
         addSubview(vLine)
         addSubview(hLine)
 
-        vLine.snp_makeConstraints { (make) in
+        vLine.snp.makeConstraints { (make) in
             make.top.bottom.equalToSuperview()
             make.centerX.equalToSuperview().offset(HTAdapter.suitW(6))
             make.width.equalTo(1.0 / UIScreen.main.scale)
         }
-        hLine.snp_makeConstraints { (make) in
+        hLine.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(HTAdapter.suitW(6))
             make.right.top.equalToSuperview()
             make.height.equalTo(1.0 / UIScreen.main.scale)
@@ -383,11 +383,11 @@ class PSShowTransmitView: UIView {
         transmitButton.snp.makeConstraints { (maker) in
             maker.left.equalTo(hLine)
             maker.top.bottom.equalToSuperview()
-            maker.right.equalTo(vLine.snp_left)
+            maker.right.equalTo(vLine.snp.left)
         }
         joinButton.snp.makeConstraints { (maker) in
             maker.top.bottom.right.equalToSuperview()
-            maker.left.equalTo(vLine.snp_right)
+            maker.left.equalTo(vLine.snp.right)
         }
 
         joinButton.addTarget(self, action: #selector(clickBtnAction(_:)), for: .touchUpInside)
