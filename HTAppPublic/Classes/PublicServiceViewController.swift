@@ -63,6 +63,8 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
     }
     var inputBarControlRect: CGRect = CGRect.zero
     
+    var viewControllerOffsetY: CGFloat = 0
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -153,6 +155,16 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         }
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if viewControllerOffsetY != 0 {
+            UIView.animate(withDuration: 0.3) {
+                self.conversationMessageCollectionView.contentOffset = CGPoint.init(x: 0, y: self.viewControllerOffsetY)
+            }
+        }
+    }
+    
     public override func viewDidDisappear(_ animated: Bool) {
         markAppServiceRead()
         super.viewDidDisappear(animated)
@@ -191,6 +203,9 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
                 profile.menu = menu
             }
         }
+    }
+    public func configContentOffset() {
+        viewControllerOffsetY = conversationMessageCollectionView.contentOffset.y
     }
     // MARK: - 公众号设置所有消息已读
     private func markAppServiceRead() {
