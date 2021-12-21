@@ -10,6 +10,10 @@ import UIKit
 import MBProgressHUD
 
 public var kHTScreenBounds: CGRect {
+    let size: CGSize = UIScreen.main.bounds.size
+    if size.width > size.height {
+        return CGRect(x: 0, y: 0, width: size.height, height: size.width)
+    }
     return UIScreen.main.bounds
 }
 public var kHTScreenSize: CGSize {

@@ -149,12 +149,12 @@ class PSMessageCell: RCMessageCell {
         }
         
         bkView.addSubview(showDetailView)
-        showDetailView.snp.makeConstraints { (make) in
+        showDetailView.snp.remakeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44))
         }
         bkView.addSubview(showTransmitView)
-        showTransmitView.snp.makeConstraints { (make) in
+        showTransmitView.snp.remakeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44))
         }
@@ -409,6 +409,10 @@ extension PSMessageCell {
                 make.left.right.bottom.equalToSuperview()
                 make.height.equalTo(HTAdapter.suitW(44))
             }
+            showTransmitView.snp.remakeConstraints { (make) in
+                make.left.right.bottom.equalToSuperview()
+                make.height.equalTo(HTAdapter.suitW(44))
+            }
         }
 
     }
@@ -457,6 +461,10 @@ extension PSMessageCell {
         showDetailView.snp.remakeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.height.equalTo(HTAdapter.suitW(44) * CGFloat(btnCount))
+        }
+        showTransmitView.snp.remakeConstraints { (make) in
+            make.left.right.bottom.equalToSuperview()
+            make.height.equalTo(HTAdapter.suitW(44))
         }
         configTemplateContentCell()
         var linkURL: [String] = []
