@@ -491,7 +491,16 @@ extension PSMessageCell {
                                 }
                                 if let urlParam = urlComponents {
                                     let type: Int = (urlParam["hrefType"] as? String ?? "0").HTtoInt() ?? 0
-                                    let hyperLink: String = urlParam["url"] as? String ?? ""
+                                    var hyperLink: String = urlParam["url"] as? String ?? ""
+                                    let urlLeftRange: NSRange = (url.absoluteString as NSString).range(of: "url=")
+                                    let urlRightRange: NSRange = (url.absoluteString as NSString).range(of: "&showText=")
+                                    let subRange: NSRange = NSRange.init(location: urlLeftRange.location + urlLeftRange.length, length: urlRightRange.location - (urlLeftRange.location + urlLeftRange.length))
+                                    if subRange.location + subRange.length < url.absoluteString.count {
+                                        let newHyperLink: String = (url.absoluteString as NSString).substring(with: NSRange.init(location: urlLeftRange.location + urlLeftRange.length, length: urlRightRange.location - (urlLeftRange.location + urlLeftRange.length)))
+                                        if newHyperLink != hyperLink {
+                                            hyperLink = newHyperLink
+                                        }
+                                    }
                                     let hyperName: String = urlParam["showText"] as? String ?? ""
                                     let secret: String = urlParam["secret"] as? String ?? ""
                                     let fileType: String = urlParam["fileType"] as? String ?? ""
@@ -534,7 +543,16 @@ extension PSMessageCell {
                                 }
                                 if let urlParam = urlComponents {
                                     let type: Int = (urlParam["hrefType"] as? String ?? "0").HTtoInt() ?? 0
-                                    let hyperLink: String = urlParam["url"] as? String ?? ""
+                                    var hyperLink: String = urlParam["url"] as? String ?? ""
+                                    let urlLeftRange: NSRange = (url.absoluteString as NSString).range(of: "url=")
+                                    let urlRightRange: NSRange = (url.absoluteString as NSString).range(of: "&showText=")
+                                    let subRange: NSRange = NSRange.init(location: urlLeftRange.location + urlLeftRange.length, length: urlRightRange.location - (urlLeftRange.location + urlLeftRange.length))
+                                    if subRange.location + subRange.length < url.absoluteString.count {
+                                        let newHyperLink: String = (url.absoluteString as NSString).substring(with: NSRange.init(location: urlLeftRange.location + urlLeftRange.length, length: urlRightRange.location - (urlLeftRange.location + urlLeftRange.length)))
+                                        if newHyperLink != hyperLink {
+                                            hyperLink = newHyperLink
+                                        }
+                                    }
                                     let hyperName: String = urlParam["showText"] as? String ?? ""
                                     let secret: String = urlParam["secret"] as? String ?? ""
                                     let fileType: String = urlParam["fileType"] as? String ?? ""
