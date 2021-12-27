@@ -163,6 +163,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
                 self.conversationMessageCollectionView.contentOffset = CGPoint.init(x: 0, y: self.viewControllerOffsetY)
             }
         }
+        viewControllerOffsetY = 0.0
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
