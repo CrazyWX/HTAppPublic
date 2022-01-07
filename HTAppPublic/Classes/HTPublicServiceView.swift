@@ -72,8 +72,8 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-//        label.enabledTextCheckingTypes = NSTextCheckingAllSystemTypes | NSTextCheckingTypeLink
-        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor, NSAttributedString.Key.underlineStyle: 1]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
         return label
@@ -86,8 +86,8 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-//        label.enabledTextCheckingTypes = NSTextCheckingTypeLink
-        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor, NSAttributedString.Key.underlineStyle: 1]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
         label.isHidden = true
@@ -101,8 +101,8 @@ class PSMessageCell: RCMessageCell {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = CGFloat(viewLabelContentWidth())
         label.delegate = self
-//        label.enabledTextCheckingTypes = NSTextCheckingTypeLink
-        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        label.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        label.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor, NSAttributedString.Key.underlineStyle: 1]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         label.lineSpacing = 5.0
         label.isHidden = true
@@ -201,7 +201,7 @@ extension PSMessageCell {
 extension PSMessageCell {
     func configOnlyTextCell() {
         titleLabel.font = descriptionFont
-        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor, NSAttributedString.Key.underlineStyle:1]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         titleLabel.isHidden = false
         descriptionLabel.isHidden = true
@@ -241,12 +241,13 @@ extension PSMessageCell {
         if let currentVc = HTAPCurrentViewController() {
             let imText = IMTextViewController()
             imText.text = messageContentModel.getHyperLinkTitle()
+            imText.modalPresentationStyle = .overCurrentContext
             currentVc.present(imText, animated: true, completion: nil)
         }
     }
     private func configCommonInfoCell() {
         titleLabel.font = titleFont
-        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
+        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor, NSAttributedString.Key.underlineStyle:1]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
         bkView.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -262,7 +263,7 @@ extension PSMessageCell {
     //MARK: -----------  配置模板各个项展示 ------------
     private func configTemplateCommonInfoCell() {
         titleLabel.font = titleFont
-        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
+        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor, NSAttributedString.Key.underlineStyle:1]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.aTextColor]
         bkView.snp.remakeConstraints { (make) in
             make.edges.equalToSuperview()
@@ -278,7 +279,7 @@ extension PSMessageCell {
 
     private func configQuestionInfoCell() {
         titleLabel.font = descriptionFont
-        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
+        titleLabel.linkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor, NSAttributedString.Key.underlineStyle:1]
         titleLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: HTTheme.btnColor]
         descriptionLabel.isHidden = true
         if messageContentModel.head == "" {
