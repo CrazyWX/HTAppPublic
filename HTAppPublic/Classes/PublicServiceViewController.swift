@@ -186,7 +186,7 @@ public class PublicServiceViewController: RCPublicServiceChatViewController {
         navi.addRightButtonTarget(target: self, action: #selector(clickRightBtn), forControlEvents: .touchUpInside)
         view.addSubview(navi)
         conversationMessageCollectionView.backgroundView = backView
-        let barHeight: CGFloat = CGFloat(UIDevice().HTisIphoneX() ? 84 : 64)
+        let barHeight: CGFloat = CGFloat(UIDevice().HTisIphoneX() ? kHTTopPadding + 44 : 64)
         navi.snp.makeConstraints { (make) in
             make.leading.trailing.top.equalTo(view)
             make.height.equalTo(barHeight)

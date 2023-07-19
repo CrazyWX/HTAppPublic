@@ -35,6 +35,16 @@ public var kHTBottomPadding: CGFloat {
         return 0
     }
 }
+public var kHTTopPadding: CGFloat {
+    get {
+        if #available(iOS 11.0, *) {
+            let window = UIApplication.shared.keyWindow
+            let topPadding = window?.safeAreaInsets.top
+            return topPadding!
+        }
+        return 0
+    }
+}
 
 public let titleFont: UIFont = UIFont(name: "PingFang-SC-Medium", size: HTAdapter.adjustFont(18))!
 public let descriptionFont: UIFont = UIFont(name: "PingFang-SC-Regular", size: HTAdapter.adjustFont(14))!
